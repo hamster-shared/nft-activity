@@ -1,5 +1,10 @@
 <template>
-  Nft Activity
+  <div class="text-red-500">
+    Nft Activity
+
+
+
+  </div>
 </template>
 <script setup lang="ts">
 
