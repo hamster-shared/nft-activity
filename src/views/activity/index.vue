@@ -87,6 +87,7 @@ const handleContent = (num: string) => {
   }
 }
 const getStarted = () => {
+  // 要先判断用户是否已经部署成功，如果部署成功直接跳转
   router.push("/start");
 }
 </script>

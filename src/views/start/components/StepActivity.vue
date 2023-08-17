@@ -66,10 +66,12 @@
   </a-modal>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import CodeEditor from '@/components/CodeEditor.vue'
 import { getContract } from '@/apis/index'
+import { useRouter } from 'vue-router'
 
+const router = new useRouter()
 const visible = ref(false);
 const visibleTitle = ref('');
 const currStep = ref(0);
@@ -118,6 +120,19 @@ const disconnectWallet = ()=>{
   isConnectedWallet.value = false
   walletAccount.value = ''
 }
+
+// 本地缓存
+const getAddress = ()=>{
+  const address = localStorage.getItem('nftAddress')
+  if(address){
+    isConnectedWallet.value = true
+    walletAccount.value = address
+  }
+}
+
+onMounted(()=>{
+  getAddress()
+})
 </script>
 <style scoped lang="less">
 
