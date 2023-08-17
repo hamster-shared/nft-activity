@@ -66,8 +66,8 @@ const questionList = ref([
   { title: '查看说明', content: '查看说明'},
   { title: '其他', content: '其他'},
 ]);
-const handleContent = (num) => {
-  let classArr = document.getElementById('content-' + num).classList;
+const handleContent = (num: string) => {
+  let classArr = (document.getElementById('content-' + num) as HTMLElement).classList;
   let tempVal = '';
   classArr.forEach((item) => {
     if (item === 'hidden') {
@@ -76,14 +76,14 @@ const handleContent = (num) => {
   })
   if (tempVal === '') {
     // showContent.value = 0;
-    document.getElementById('add-' + num).classList.remove("hidden");
-    document.getElementById('minus-' + num).classList.add("hidden");
-    document.getElementById('content-'+num).classList.add("hidden");
+    (document.getElementById('add-' + num) as HTMLElement).classList.remove("hidden");
+    (document.getElementById('minus-' + num) as HTMLElement).classList.add("hidden");
+    (document.getElementById('content-'+num) as HTMLElement).classList.add("hidden");
   } else {
     // showContent.value = num;  //若只能展开一个，则需要赋值
-    document.getElementById('content-' + num).classList.remove("hidden");
-    document.getElementById('minus-' + num).classList.remove("hidden");
-    document.getElementById('add-'+num).classList.add("hidden");
+    (document.getElementById('content-' + num) as HTMLElement).classList.remove("hidden");
+    (document.getElementById('minus-' + num) as HTMLElement).classList.remove("hidden");
+    (document.getElementById('add-'+num) as HTMLElement).classList.add("hidden");
   }
 }
 const getStarted = () => {

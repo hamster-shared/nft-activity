@@ -24,7 +24,7 @@ import { ref } from "vue";
 import StepActivity from "./components/StepActivity.vue";
 import SucActivity from "./components/SucActivity.vue";
 
-const isSuc = ref(true);
+const isSuc = ref(false);
 
 </script>
 <style scoped lang="less">

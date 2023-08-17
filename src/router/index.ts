@@ -11,6 +11,11 @@ let router = createRouter({
       path: "/start",
       name: "start",
       component: () => import('@/views/start/index.vue'),
+    },
+    {
+      path: "/view",
+      name: "contractDetail",
+      component: () => import('@/views/contractDetail/index.vue'),
     }
   ],
   // 每次切换路由页面滚动到顶部
