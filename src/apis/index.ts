@@ -11,7 +11,7 @@ export function getContracts(): Promise<EthereumContract[]> {
 }
 
 // 获取单个合约详情
-function getContract(name: string): Promise<EthereumContract> {
+export function getContract(name: string): Promise<EthereumContract> {
     return new Promise<EthereumContract>((resolve,reject) => {
         Promise.all([
             axios.get(`/contracts/${name}/source.sol`),

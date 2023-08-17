@@ -1,16 +1,15 @@
 <template>
   <div
-    class="contractList dark:text-white text-[#121211] grid grid-cols-3 gap-4 border border-solid dark:border-[#434343] border-[#EBEBEB] rounded-[12px]">
+    class="contractList text-white grid grid-cols-3 gap-4 border border-solid border-[#434343] rounded-[12px]">
     <div class="contractList-left p-[32px]">
       <div class="mb-[64px]" v-if="sendAbis.length > 0">
         <div class="mb-[16px]">
-          <img src="@/assets/icons/send-white.svg" class="mr-[8px] hidden dark:inline-block" />
-          <img src="@/assets/icons/send-block.svg" class="mr-[8px] dark:hidden" />
+          <img src="@/assets/images/send-white.svg" class="mr-[8px] inline-block" />
           <span class="font-bold align-middle">Send</span>
         </div>
         <div>
           <div
-            class="contractList-title dark:text-[#E0DBD2] text-[#73706E] h-[51px] leading-[51px] rounded-[12px] pl-[30px] cursor-pointer"
+            class="contractList-title text-[#E0DBD2] h-[51px] leading-[51px] rounded-[12px] pl-[30px] cursor-pointer"
             :class="(checkValue === val.name && checkValueIndex === index) ? 'checked' : ''"
             v-for="(val, index) in sendAbis" :key="val.name" @click="checkContract(val.name, val, 'Transact', index)">
             {{ ellipsisFunction(val.name) }}</div>
@@ -18,13 +17,12 @@
       </div>
       <div v-if="callAbis.length > 0">
         <div class="mb-[16px]">
-          <img src="@/assets/icons/send-white.svg" class="mr-[8px] hidden dark:inline-block" />
-          <img src="@/assets/icons/send-block.svg" class="mr-[8px] dark:hidden" />
+          <img src="@/assets/images/send-white.svg" class="mr-[8px] inline-block" />
           <span class="font-bold align-middle">Call</span>
         </div>
         <div>
           <div
-            class="contractList-title dark:text-[#E0DBD2] text-[#73706E] h-[51px] leading-[51px] rounded-[12px] pl-[30px] cursor-pointer"
+            class="contractList-title text-[#E0DBD2] h-[51px] leading-[51px] rounded-[12px] pl-[30px] cursor-pointer"
             :class="(checkValue === val.name && checkValueIndex === index) ? 'checked' : ''"
             v-for="(val, index) in callAbis" :key="val.name" @click="checkContract(val.name, val, 'Call', index)">
             {{ ellipsisFunction(val.name) }}</div>
@@ -34,7 +32,7 @@
     </div>
     <div class="col-span-2 p-[32px]">
       <div>
-        <ContractForm :checkValue="checkValue" :contractAddress="contractAddress" :inputs="inputs" :outputs="outputs" :abiInfo="abiInfo"
+        <ContractForm v-if="false" :checkValue="checkValue" :contractAddress="contractAddress" :inputs="inputs" :outputs="outputs" :abiInfo="abiInfo"
           :frameType="frameType" :buttonInfo="buttonInfo" :payable="payable" ref="contractForm" :aptosName="aptosName" :aptosAddress="aptosAddress">
         </ContractForm>
       </div>
@@ -77,32 +75,15 @@ if (data.abi) {
 const commonFirst = ()=>{
   if (sendAbis.length > 0) {
     checkValue.value = sendAbis[0]?.name;
-    // aptos send abi需单独处理
-    if(frameType?.value==2){
-      inputs.value = sendAbis[0]?.params?.filter((item:any)=>{
-        return item != "&signer"
-      }).map((enmu:any,index:number)=>{
-        return {
-          name:`param${index+1}`,
-          internalType:enmu
-        }
-      })
-    }else{
-      inputs.value = sendAbis[0]?.inputs;
-      outputs.value = sendAbis[0]?.outputs
-      payable.value = sendAbis[0]?.stateMutability === 'payable'
-    }
+    inputs.value = sendAbis[0]?.inputs;
+    outputs.value = sendAbis[0]?.outputs
+    payable.value = sendAbis[0]?.stateMutability === 'payable'
     buttonInfo.value = 'Transact'
   } else if (sendAbis.length <= 0 && callAbis.length > 0) {
     checkValue.value = callAbis[0]?.name;
-    // aptos call abi
-    if(frameType?.value==2){
-      // inputs.value = callAbis[0]?.fields;
-    }else{
-      inputs.value = callAbis[0]?.inputs;
-      outputs.value = callAbis[0]?.outputs;
-      payable.value = callAbis[0]?.stateMutability === 'payable'
-    }
+    inputs.value = callAbis[0]?.inputs;
+    outputs.value = callAbis[0]?.outputs;
+    payable.value = callAbis[0]?.stateMutability === 'payable'
     buttonInfo.value = 'Call'
   } else {
     checkValue.value = ''
@@ -128,32 +109,9 @@ const checkContract = (name: string, val: any, text: string, index: number) => {
   checkValueIndex.value = index;
   // console.log(buttonInfo, 'buttonInfo')
   checkValue.value = name
-  // 如果是aptos需要单独处理
-  if(frameType?.value ===2){
-    if(val?.abilities){
-      // aptos call
-      // inputs.value = val.fields.map((item:any)=>{
-      //   return {
-      //     name:item.name,
-      //     internalType:item.type
-      //   }
-      // })
-    }else{
-      // aptos send
-      inputs.value = val.params.filter((item:any)=>{
-        return item != "&signer"
-      }).map((enmu:any,index:number)=>{
-        return {
-          name:`param${index+1}`,
-          internalType:enmu
-        }
-      })
-    }
-  }else{
-    inputs.value = val.inputs
-    outputs.value = val.outputs
-    payable.value = val.stateMutability === 'payable'
-  }
+  inputs.value = val.inputs
+  outputs.value = val.outputs
+  payable.value = val.stateMutability === 'payable'
   buttonInfo.value = text
   console.log("payable: ", payable.value)
 
@@ -193,10 +151,6 @@ onMounted(()=>{
 
 .contractList {
   font-size: 14px;
-
-  .contractList-left {
-    border-right: 1px solid #EBEBEB;
-  }
 }
 
 .btn {
