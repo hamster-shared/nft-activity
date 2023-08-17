@@ -56,16 +56,10 @@
 </template>
 <script lang='ts' setup>
 import { reactive, toRefs, watch, ref } from 'vue';
-import { useDeployAddressStore } from "@/stores/useDeployAddress";
 import * as ethers from "ethers";
 import YAML from "yaml";
 import { message } from 'ant-design-vue';
-import { connect, getStarknet } from "@argent/get-starknet";
-import { stark, number,uint256 } from "starknet";
-import { PetraWallet } from "petra-plugin-wallet-adapter";
-import { WalletCore } from '@aptos-labs/wallet-adapter-core';
-import { AptosClient } from 'aptos'
-const deployAddress = useDeployAddressStore();
+
 const props = defineProps({
   contractAddress: String,
   checkValue: String,
@@ -99,154 +93,19 @@ const formState = reactive({
 const payableValue = ref(0)
 const payUnit = ref("ether")
 
-// aptos
-const arr = [new PetraWallet()]
-const aptosWallet: any = new WalletCore(arr)
-const aptosNetwork = ref('')
-
-const testData = reactive({});
 
 const formData = reactive<any>({});
 const { checkValue, contractAddress, abiInfo, inputs,outputs, buttonInfo,frameType, aptosName, aptosAddress, subTitle } = toRefs(props)
 Object.assign(formState, { contractAddress: contractAddress?.value, checkValue: checkValue?.value, abiInfo: abiInfo?.value, frameType: frameType?.value })
-const connectWallet = async () => {
-  const windowStarknet = await connect({
-    include: ["argentX"],
-  })
-  await windowStarknet?.enable({ starknetVersion: "v4" })
-  return windowStarknet
-}
-const executeGet = async () => {
-  isSend.value = true
-  try {
-    var calldata = stark.compileCalldata({})
-    if (JSON.stringify(formData) != "{}") {
-      calldata = stark.compileCalldata(formData)
-    }
-    const callResp = await deployAddress.deployAddressValue.account.callContract({
-      entrypoint: checkValue?.value,
-      contractAddress: contractAddress?.value,
-      calldata: calldata,
-    })
-    if (callResp.result.length > 0) {
-      callResp.result.forEach( (item:string,index:number) => {
-        if (outputs?.value.length > 0) {
-          if (outputs?.value.length > index) {
-            const output = outputs?.value[index]
-            if (output.type == 'felt') {
-              if (isHexStringStringData(item)) {
-                hashValue.value = hashValue.value + output.name + ": " + byteArrayToString(hexToByteArray(item)) + "\n"
-              } else {
-                hashValue.value = hashValue.value + output.name + ": " + parseInt(item, 16).toString() + "\n"
-              }
-            } else {
-              hashValue.value = hashValue.value + output.name + ": " + parseInt(item, 16).toString() + "\n"
-            }
-          }
-        } else {
-          hashValue.value = callResp.result[0]
-        }
-      })
-    }
-    // const firstReturnData = callResp.result[0]
-    // if (firstReturnData == "0x0") {
-    //   hashValue.value = parseInt(firstReturnData, 16).toString()
-    //   return
-    // }
-    // if (isHexStringStringData(firstReturnData)) {
-    //   const data = byteArrayToString(hexToByteArray(firstReturnData))
-    //   hashValue.value = data
-    // } else {
-    //   // hashValue.value = parseInt(firstReturnData, 16).toString()
-    //   hashValue.value = number.toFelt(firstReturnData)
-    // }
-    // console.log(firstReturnData, number.toFelt(firstReturnData))
-    // hashValue.value = number.toFelt(firstReturnData)
-  } catch (err: any) {
-    message.error(err.toString())
-  } finally {
-    isSend.value = false;
-  }
-}
 
-function isHexStringStringData(hexString: string): boolean {
-  const asciiString = hexString.slice(2).replace(/../g, char => String.fromCharCode(parseInt(char, 16)));
-  const printableRegex = /^[\x20-\x7E]+$/;
-  return printableRegex.test(asciiString);
-}
 
-function hexToByteArray(hex: string): number[] {
-  const bytes: number[] = [];
-  for (let i = 0; i < hex.length; i += 2) {
-    bytes.push(parseInt(hex.substr(i, 2), 16));
-  }
-  return bytes;
-}
-
-function byteArrayToString(byteArray: number[]): string {
-  return String.fromCharCode(...byteArray);
-}
-
-const executeSet = async () => {
-  isSend.value = true
-  // console.log(formData, 'set')
-  try {
-    let callData: any = {}
-    Object.assign(callData,formData)
-    const amountToMint = uint256.bnToUint256(1);
-    if (inputs?.value.length > 0) {
-      inputs?.value.forEach((item: any) => {
-        if (item.type == 'Uint256') {
-          const amount = uint256.bnToUint256(parseInt(callData[item.name]));
-          callData[item.name] = { type: 'struct', low: amount.low, high: amount.high }
-        }
-      })
-    }
-    const invokeResponse = await deployAddress.deployAddressValue.account.execute({
-          contractAddress: contractAddress?.value,
-          entrypoint: checkValue?.value,
-          calldata: stark.compileCalldata(callData)},
-    );
-    // console.log(invokeResponse.transaction_hash)
-    const receiptResponsePromise = await deployAddress.deployAddressValue.account.waitForTransaction(invokeResponse.transaction_hash, undefined, ['ACCEPTED_ON_L2'])
-    // console.log(receiptResponsePromise, 'receiptResponsePromise')
-    hashValue.value = invokeResponse.transaction_hash;
-  } catch (err: any) {
-    message.error(err.toString())
-  } finally {
-    isSend.value = false;
-  }
-}
 const submit = async () => {
   const emptyInputs = inputs?.value.filter( (item: { name: string | number; }) => !formData[item.name]);
   if (emptyInputs.length > 0) {
     message.warning('Please enter the necessary parameters')
     return
   }
-  // console.log(deployAddress.deployAddressValue, 'deployAddressValue')
-  if (frameType?.value == 4) {
-    // console.log(formState.frameType, 'formState.frameType')
-    // console.log(formState.frameType, 'formState.frameType')
-    if (JSON.stringify(deployAddress.deployAddressValue) == '{}') {
-      const data1 = await connectWallet()
-      Object.assign(testData, data1)
-      // console.log(data1, 'data1')
-      deployAddress.setDeployAddress(testData)
-      if (buttonInfo?.value == "Call") {
-        executeGet()
-      } else {
-        executeSet()
-      }
-    } else {
-      if (buttonInfo?.value == "Call") {
-        executeGet()
-      } else {
-        executeSet()
-      }
-    }
-  } else {
-    evmDeployFunction();
-  }
+  evmDeployFunction();
 }
 // evm合约方法调用
 const evmDeployFunction = () => {
@@ -300,35 +159,6 @@ const evmDeployFunction = () => {
           isSend.value = false;
         })
       }
-    } else if (frameType.value == 2) {
-      if (props.buttonInfo === 'Transact') {
-        // aptos move send 回调
-        console.log('aptosWallet~~~11111', aptosWallet._connected)
-        if (aptosWallet._connected) {
-          aptosSendAbiFn()
-        } else {
-          aptosWallet.connect("Petra").then(async () => {
-            aptosNetwork.value = aptosWallet.network.name;
-            aptosSendAbiFn()
-          }).catch((err: any) => {
-            isSend.value = false;
-            console.log('err', err)
-          })
-        }
-      } else {
-        // aptos call abi
-        if (aptosWallet._connected) {
-          aptosCallAbiFn()
-        } else {
-          aptosWallet.connect("Petra").then(async () => {
-            aptosNetwork.value = aptosWallet.network.name;
-            aptosCallAbiFn()
-          }).catch((err: any) => {
-            isSend.value = false;
-            console.log('err', err)
-          })
-        }
-      }
     }
   } catch (errorInfo: any) {
     console.log('errorInfo:' + errorInfo)
@@ -336,42 +166,7 @@ const evmDeployFunction = () => {
     message.error('调用失败')
   }
 }
-const aptosSendAbiFn = async () => {
-  try {
-    const preload = {
-      type: "entry_function_payload",
-      function: `${aptosAddress?.value}::${aptosName?.value}::${formState.checkValue}`,
-      arguments: [...(Object.values(formData))],
-      type_arguments: []
-    }
-    console.log(preload, 'aptos move fn')
-    const res = await aptosWallet.signAndSubmitTransaction(preload)
-    console.log('res~~~~~', res)
-    hashValue.value = res.hash
-    isSend.value = false;
-  } catch (error) {
-    isSend.value = false;
-  }
 
-}
-const aptosCallAbiFn = async () => {
-  try {
-    // NODE_URL 应该根据网络动态切换
-    const NODE_URL = `https://fullnode.${aptosNetwork.value}.aptoslabs.com`;
-    const petraClient = new AptosClient(NODE_URL);
-    try{
-      const res:any = await petraClient.getAccountResource(aptosWallet?._account?.address, `${aptosAddress?.value}::${aptosName?.value}::${formState.checkValue}`);
-      console.log('res~~~~~',res)
-      hashValue.value = JSON.stringify(res.data)
-    }catch(err){
-      isSend.value = false;
-      console.log(err)
-    }
-  } catch (error) {
-    console.log('aptos call error',error)
-    isSend.value = false;
-  }
-}
 const copy = () => {
   let inp = document.createElement("input");
   document.body.appendChild(inp);
