@@ -7,12 +7,14 @@
 import {onMounted} from "vue";
 import {getContracts} from "@/apis";
 import {
+    activeNetwork,
     addScrollSepoliaChain,
     connectWallet,
     getCurrentNetworkId,
-    scroll_sepolia_networkID,
     switchToScrollSepolia
 } from "@/utils/wallet.ts";
+
+import  * as contract from "@/utils/contract.ts"
 
 onMounted(async () => {
     console.log('Test.vue onMounted')
@@ -24,7 +26,7 @@ onMounted(async () => {
     const chainId = await getCurrentNetworkId()
     console.log(chainId)
     //判断当前链id 是否scroll_sepolia网络
-    if(chainId !== scroll_sepolia_networkID) {
+    if(chainId !== activeNetwork.id) {
         //尝试切换到scroll_sepolia网络
         switchToScrollSepolia().then(() => {
             console.log("switch scroll_sepolia success")
@@ -38,6 +40,13 @@ onMounted(async () => {
             })
         })
     }
+
+    contract.deploy("erc20",["MyToken","MTK"]).then(result => {
+        // 合约地址
+        console.log("contract_address:", result.address)
+        // 交易hash
+        console.log("transaction_tx:",result.deployTransaction.hash)
+    })
 
 })
 

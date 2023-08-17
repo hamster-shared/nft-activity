@@ -2,8 +2,19 @@ import * as ethers from "ethers";
 // @ts-ignore
 const ethereum = window.ethereum;
 
-const provider = new ethers.providers.Web3Provider(ethereum)
-export const scroll_sepolia_networkID = "0x8274f"
+export const provider = new ethers.providers.Web3Provider(ethereum)
+
+const networks = [{
+    id: "0x8274f",
+    name: "Scroll Sepolia Testnet",
+    rpc: "https://sepolia-rpc.scroll.io"
+},{
+    id: "0x82751",
+    name: "Scroll Alpha Testnet",
+    rpc: "https://alpha-rpc.scroll.io/l2",
+}]
+
+export const activeNetwork = networks[1]
 
 // 连接钱包
 export function connectWallet():Promise<any> {
@@ -28,7 +39,7 @@ export function switchToScrollSepolia(): Promise<any> {
     }
     return ethereum.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: scroll_sepolia_networkID }],
+        params: [{ chainId: activeNetwork.id }],
     })
 }
 
@@ -41,9 +52,9 @@ export function addScrollSepoliaChain(): Promise<any>{
         method: "wallet_addEthereumChain",
         params: [
             {
-                chainId: scroll_sepolia_networkID,
-                chainName: "Scroll Sepolia Testnet",
-                rpcUrls: ["https://sepolia-rpc.scroll.io"],
+                chainId: activeNetwork.id,
+                chainName: activeNetwork.name,
+                rpcUrls: [activeNetwork.rpc],
                 nativeCurrency: {
                     name: 'ETH',
                     symbol: 'ETH',
