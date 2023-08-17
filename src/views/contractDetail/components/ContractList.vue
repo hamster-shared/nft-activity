@@ -75,32 +75,15 @@ if (data.abi) {
 const commonFirst = ()=>{
   if (sendAbis.length > 0) {
     checkValue.value = sendAbis[0]?.name;
-    // aptos send abi需单独处理
-    if(frameType?.value==2){
-      inputs.value = sendAbis[0]?.params?.filter((item:any)=>{
-        return item != "&signer"
-      }).map((enmu:any,index:number)=>{
-        return {
-          name:`param${index+1}`,
-          internalType:enmu
-        }
-      })
-    }else{
-      inputs.value = sendAbis[0]?.inputs;
-      outputs.value = sendAbis[0]?.outputs
-      payable.value = sendAbis[0]?.stateMutability === 'payable'
-    }
+    inputs.value = sendAbis[0]?.inputs;
+    outputs.value = sendAbis[0]?.outputs
+    payable.value = sendAbis[0]?.stateMutability === 'payable'
     buttonInfo.value = 'Transact'
   } else if (sendAbis.length <= 0 && callAbis.length > 0) {
     checkValue.value = callAbis[0]?.name;
-    // aptos call abi
-    if(frameType?.value==2){
-      // inputs.value = callAbis[0]?.fields;
-    }else{
-      inputs.value = callAbis[0]?.inputs;
-      outputs.value = callAbis[0]?.outputs;
-      payable.value = callAbis[0]?.stateMutability === 'payable'
-    }
+    inputs.value = callAbis[0]?.inputs;
+    outputs.value = callAbis[0]?.outputs;
+    payable.value = callAbis[0]?.stateMutability === 'payable'
     buttonInfo.value = 'Call'
   } else {
     checkValue.value = ''
@@ -126,32 +109,9 @@ const checkContract = (name: string, val: any, text: string, index: number) => {
   checkValueIndex.value = index;
   // console.log(buttonInfo, 'buttonInfo')
   checkValue.value = name
-  // 如果是aptos需要单独处理
-  if(frameType?.value ===2){
-    if(val?.abilities){
-      // aptos call
-      // inputs.value = val.fields.map((item:any)=>{
-      //   return {
-      //     name:item.name,
-      //     internalType:item.type
-      //   }
-      // })
-    }else{
-      // aptos send
-      inputs.value = val.params.filter((item:any)=>{
-        return item != "&signer"
-      }).map((enmu:any,index:number)=>{
-        return {
-          name:`param${index+1}`,
-          internalType:enmu
-        }
-      })
-    }
-  }else{
-    inputs.value = val.inputs
-    outputs.value = val.outputs
-    payable.value = val.stateMutability === 'payable'
-  }
+  inputs.value = val.inputs
+  outputs.value = val.outputs
+  payable.value = val.stateMutability === 'payable'
   buttonInfo.value = text
   console.log("payable: ", payable.value)
 
