@@ -32,21 +32,15 @@
   -webkit-text-fill-color: transparent;
 }
 
-.open-link-css{
+.open-link-css,.open-link-css .svg-icon{
   color: #E2B578;
-  .svg-icon {
-    color: #E2B578;
-  }
-  &:hover{
-    color: #E4C08F;
-    .svg-icon {
-      color: #E4C08F;
-    }
-  }
-  &:active{
-    color: #CE9C58;
-    .svg-icon {
-      color: #CE9C58;
-    }
-  }
+}
+.open-link-css .svg-icon{
+  color: #E2B578;
+}
+.open-link-css:hover,.open-link-css .svg-icon:hover{
+  color: #E4C08F;
+}
+.open-link-css:active,.open-link-css .svg-icon:active{
+  color: #CE9C58;
 }
