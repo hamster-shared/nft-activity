@@ -7,10 +7,10 @@
     </a-steps>
     <div class="mt-[80px]" v-if="currStep === 0">
       <div class="flex justify-center">
-        <a-select v-model:value="networkValue" class="w-[387px] text-left">
+        <a-select v-model:value="networkValue" class="w-[387px] text-left" disabled>
           <a-select-option value="Scroll / Sepolia">Scroll / Sepolia</a-select-option>
         </a-select>
-        <a-button v-if="!isConnectedWallet" type="primary" ghost class="ml-[20px] !bg-[#FFFFFF]">Connect Wallet</a-button>
+        <a-button v-if="!isConnectedWallet" type="primary" ghost class="ml-[20px] !bg-[#FFFFFF]" @click="connectWallet">Connect Wallet</a-button>
         <div v-if="isConnectedWallet" class="ml-[20px] h-[47px] px-[20px] border border-solid border-[#5C64FF] bg-[#FFFFFF] rounded-[8px] flex items-center">
           <img src="@/assets/images/metamask-icon.svg" class="h-[20px] mr-2" />
           <div class="text-[#000000]">
@@ -18,9 +18,9 @@
           </div>
           <a-tooltip placement="right" color="white">
             <template #title>
-              <span class="text-[#606266] text-[14px] p-[10px] cursor-pointer" @click="">Disconnect</span>
+              <span class="text-[#606266] text-[14px] p-[10px] cursor-pointer" @click="disconnectWallet">Disconnect</span>
             </template>
-            <img src="@/assets/images/disconnect.svg" class="h-[20px] ml-2 cursor-pointer" />
+            <img src="@/assets/images/disconnect.svg" class="h-[20px] ml-2 cursor-pointer" @click="disconnectWallet" />
           </a-tooltip>
         </div>
       </div>
@@ -68,16 +68,17 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import CodeEditor from '@/components/CodeEditor.vue'
+import { getContract } from '@/apis/index'
 
 const visible = ref(false);
 const visibleTitle = ref('');
-const currStep = ref(1);
+const currStep = ref(0);
 const isEmpty = ref(false);
-const isConnectedWallet = ref(true);
-const walletAccount = ref('0x3c955a0109eb0860fe1e28b7f50d1e48d3f4aa12');
+const isConnectedWallet = ref(false);
+const walletAccount = ref('');
 const networkValue = ref('Scroll / Sepolia');
 const contract = ref('ERC20');
-const contractValue = ref("function 12312312\n\nn\n123312\n\nn\n123312\n\nn\n123312\n\nn\n123312\n\nn\n123312\n\nn\n123312\n\nn\n123312\n\nn\n123312\n\nn\n123312\n\nn\n123");
+const contractValue = ref("");
 const formData = ref({
   symbol: '',
   name: '',
@@ -89,10 +90,33 @@ const nextStep = () => {
 const backStep = () => {
   currStep.value--;
 }
-const showContract = (name: string) => {
+const showContract = async(name: string) => {
   console.log("name:::", name);
   visible.value = true;
   visibleTitle.value = name;
+  const res = await getContract(name?.toLowerCase())
+  contractValue.value = res.sourceCode
+}
+
+const connectWallet = async()=>{
+  if (window.ethereum) {
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const address = accounts[0];
+    if(address){
+      isConnectedWallet.value = true
+      walletAccount.value = address
+      localStorage.setItem('nftAddress',address)
+    }
+    console.log(`Metamask wallet address: ${address}`,accounts);
+  } else {
+    message.error('Please install MetaMask!')
+  }
+}
+
+const disconnectWallet = ()=>{
+  localStorage.removeItem('nftAddress')
+  isConnectedWallet.value = false
+  walletAccount.value = ''
 }
 </script>
 <style scoped lang="less">
