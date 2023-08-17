@@ -12,6 +12,7 @@
       "vite-plugin-svg-icons/client",
       "jest"
     ],
+    "noUnusedLocals": false,
     
     "target": "ES2020",
     "useDefineForClassFields": true,
