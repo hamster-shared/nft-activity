@@ -10,6 +10,7 @@ export function getContracts(): Promise<EthereumContract[]> {
     ])
 }
 
+// 获取单个合约详情
 function getContract(name: string): Promise<EthereumContract> {
     return new Promise<EthereumContract>((resolve,reject) => {
         Promise.all([
@@ -17,14 +18,12 @@ function getContract(name: string): Promise<EthereumContract> {
             axios.get(`/contracts/${name}/abi.json`),
             axios.get(`/contracts/${name}/bytecode`)
         ]).then(resp => {
-            resolve({
-                name: name.toUpperCase(),
-                sourceCode: resp[0].data,
-                abi: resp[1].data,
-                bytecode: resp[2].data
-            })
+            resolve(
+                new EthereumContract(name.toUpperCase(),resp[0].data,resp[1].data,resp[2].data.trimEnd())
+            )
         }).catch(err => {
             reject(err)
         })
     })
 }
+
