@@ -4,13 +4,13 @@ let router = createRouter({
   routes: [
     {
       path: "/",
-      name: "home",
+      name: "activity",
       component: () => import('@/views/activity/index.vue'),
     },
     {
-      path: "/activity",
-      name: "activity",
-      component: () => import('@/views/activity/index.vue'),
+      path: "/start",
+      name: "start",
+      component: () => import('@/views/start/index.vue'),
     }
   ],
   // 每次切换路由页面滚动到顶部
