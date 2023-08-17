@@ -1,22 +1,61 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-</script>
 
 <template>
-  <HelloWorld msg="Vite + Vue" />
+  <div class="">
+    <!-- Default Layout -->
+    <a-layout class="layout-default" id="layout-default" :class="layoutClass">
+      <!-- Layout Header's Conditionally Fixed Wrapper -->
+      <!-- <Header msg="Vite + Vue" /> -->
+      <!-- / Layout Header's Conditionally Fixed Wrapper -->
+
+      <!-- Layout Content -->
+      <a-layout class="layout-default-page !bg-[#000000]">
+        <!-- Page Content -->
+        <a-layout-content class="px-[50px]">
+          <keep-alive>
+            <router-view v-if="$route.meta.keepAlive" />
+          </keep-alive>
+          <router-view v-if="!$route.meta.keepAlive" />
+        </a-layout-content>
+        <!-- / Page Content -->
+        <Footer />
+      </a-layout>
+      <!-- / Layout Content -->
+    </a-layout>
+    <!-- / Dashboard Layout -->
+  </div>
 </template>
+<script setup lang="ts">
+import { RouterView, useRoute } from "vue-router";
+import Footer from '@/components/Footer.vue'
+import { computed } from "vue";
+import { ConfigProvider } from 'ant-design-vue';
+
+ConfigProvider.config({
+  theme: {
+    primaryColor: '#5C64FF',
+  },
+});
+const routes = useRoute();
+
+const layoutClass = computed(() => {
+  return routes.meta.layoutClass;
+});
+</script>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+
+.ant-layout {
+  background: #000000;
+  color: #FFFFFF;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+.layout-default-page {
+  min-height: 100vh;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+.border-b{
+  border-bottom: 1px solid #FFFFFF;
+}
+.border-t{
+  border-top: 1px solid #FFFFFF;
 }
 </style>
