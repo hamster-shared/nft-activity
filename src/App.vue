@@ -10,7 +10,7 @@
       <!-- Layout Content -->
       <a-layout class="layout-default-page !bg-[#000000]">
         <!-- Page Content -->
-        <a-layout-content class="px-[50px]">
+        <a-layout-content>
           <keep-alive>
             <router-view v-if="$route.meta.keepAlive" />
           </keep-alive>
