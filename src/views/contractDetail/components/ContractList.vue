@@ -1,16 +1,15 @@
 <template>
   <div
-    class="contractList dark:text-white text-[#121211] grid grid-cols-3 gap-4 border border-solid dark:border-[#434343] border-[#EBEBEB] rounded-[12px]">
+    class="contractList text-white grid grid-cols-3 gap-4 border border-solid border-[#434343] rounded-[12px]">
     <div class="contractList-left p-[32px]">
       <div class="mb-[64px]" v-if="sendAbis.length > 0">
         <div class="mb-[16px]">
-          <img src="@/assets/icons/send-white.svg" class="mr-[8px] hidden dark:inline-block" />
-          <img src="@/assets/icons/send-block.svg" class="mr-[8px] dark:hidden" />
+          <img src="@/assets/images/send-white.svg" class="mr-[8px] inline-block" />
           <span class="font-bold align-middle">Send</span>
         </div>
         <div>
           <div
-            class="contractList-title dark:text-[#E0DBD2] text-[#73706E] h-[51px] leading-[51px] rounded-[12px] pl-[30px] cursor-pointer"
+            class="contractList-title text-[#E0DBD2] h-[51px] leading-[51px] rounded-[12px] pl-[30px] cursor-pointer"
             :class="(checkValue === val.name && checkValueIndex === index) ? 'checked' : ''"
             v-for="(val, index) in sendAbis" :key="val.name" @click="checkContract(val.name, val, 'Transact', index)">
             {{ ellipsisFunction(val.name) }}</div>
@@ -18,13 +17,12 @@
       </div>
       <div v-if="callAbis.length > 0">
         <div class="mb-[16px]">
-          <img src="@/assets/icons/send-white.svg" class="mr-[8px] hidden dark:inline-block" />
-          <img src="@/assets/icons/send-block.svg" class="mr-[8px] dark:hidden" />
+          <img src="@/assets/images/send-white.svg" class="mr-[8px] inline-block" />
           <span class="font-bold align-middle">Call</span>
         </div>
         <div>
           <div
-            class="contractList-title dark:text-[#E0DBD2] text-[#73706E] h-[51px] leading-[51px] rounded-[12px] pl-[30px] cursor-pointer"
+            class="contractList-title text-[#E0DBD2] h-[51px] leading-[51px] rounded-[12px] pl-[30px] cursor-pointer"
             :class="(checkValue === val.name && checkValueIndex === index) ? 'checked' : ''"
             v-for="(val, index) in callAbis" :key="val.name" @click="checkContract(val.name, val, 'Call', index)">
             {{ ellipsisFunction(val.name) }}</div>
@@ -193,10 +191,6 @@ onMounted(()=>{
 
 .contractList {
   font-size: 14px;
-
-  .contractList-left {
-    border-right: 1px solid #EBEBEB;
-  }
 }
 
 .btn {

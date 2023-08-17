@@ -45,9 +45,9 @@
     <div class="mb-[24px] mt-[24px]">
       <div class="flex justify-between  mb-[12px]">
         <span class="text-[#FFFFFF] text-[16px] font-bold">outputs</span>
-        <span class="open-link-css text-[16px] cursor-pointer" @click="copy">
-          <img src="@/assets/icons/copy.svg" />
-          copy</span>
+        <span class="open-link-css text-[16px] cursor-pointer flex" @click="copy">
+          <img src="@/assets/images/copy.svg" class="mr-1" />copy
+        </span>
       </div>
       <a-textarea class="text-white" placeholder="" disabled :rows="4" v-model:value="hashValue"
         ref="textareaRef" />
@@ -401,8 +401,9 @@ watch(
 );
 </script>
 <style lang='less' scoped>
-.btn {
-  width: 131px;
+.btn { 
   height: 43px;
+  background: #E2B578;
+  border-color: #E2B578;
 }
 </style>
