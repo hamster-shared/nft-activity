@@ -74,7 +74,7 @@ import { useRouter } from 'vue-router'
 const router = new useRouter()
 const visible = ref(false);
 const visibleTitle = ref('');
-const currStep = ref(0);
+const currStep = ref(2);
 const isEmpty = ref(false);
 const isConnectedWallet = ref(false);
 const walletAccount = ref('');

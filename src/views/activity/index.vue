@@ -26,7 +26,7 @@
           <div>开始时间：2023-08-22 00：00:00</div>
           <div class="mt-[30px]">结束时间：2023-08-22 00：00:00</div>
         </div>
-        <a-button type="primary" class="btn-css mt-[60px]" @click="getStarted">Get Started</a-button>
+        <!-- <a-button type="primary" class="btn-css mt-[60px]" @click="getStarted">Get Started</a-button> -->
       </div>
     </div>
     <div class="container mx-auto px-5 py-[120px]">
@@ -47,7 +47,7 @@
         <div :id="`content-${key+1}`" :class="{ 'hidden' : showContent !== key+1}" class="mt-[30px] ml-[50px] text-[18px] font-light activity-text-Light w-[880px]">{{ item.content }}</div>
       </div>
       <div class="text-center">
-        <a-button type="primary" class="btn-css mt-[60px]" @click="getStarted">Get Started</a-button>
+        <!-- <a-button type="primary" class="btn-css mt-[60px]" @click="getStarted">Get Started</a-button> -->
       </div>
     </div>
   </div>
