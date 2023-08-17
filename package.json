@@ -9,15 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@aptos-labs/wallet-adapter-core": "^2.5.1",
-    "@argent/get-starknet": "^6.4.7",
     "ant-design-vue": "^3.2.15",
     "aptos": "^1.18.0",
-    "ethers": "^6.7.1",
+    "ethers": "^5.7.2",
     "monaco-editor": "^0.41.0",
-    "petra-plugin-wallet-adapter": "^0.3.0",
-    "pinia": "^2.1.6",
-    "starknet": "^5.14.1",
     "vue": "^3.3.4",
     "vue-router": "^4.1.5",
     "yaml": "^2.3.1"
