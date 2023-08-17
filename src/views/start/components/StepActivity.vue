@@ -54,7 +54,7 @@
       </a-form>
       <div class="mt-[50px] text-center">
         <a-button type="primary" class="mr-[20px]" @click="backStep">Back</a-button>
-        <a-button type="primary" :disabled="!isEmpty" @click="nextStep">Deploy</a-button>
+        <a-button type="primary" :disabled="!isEmpty" @click="DeployClick" :loading="loading">Deploy</a-button>
       </div>
     </div>
   </div>
@@ -70,8 +70,11 @@ import { ref, onMounted } from 'vue';
 import CodeEditor from '@/components/CodeEditor.vue'
 import { getContract } from '@/apis/index'
 import { useRouter } from 'vue-router'
+import { message } from 'ant-design-vue'
+import { addToChain } from '@/utils/changeNetwork'
 
-const router = new useRouter()
+const router = useRouter()
+const loading = ref(false)
 const visible = ref(false);
 const visibleTitle = ref('');
 const currStep = ref(2);
@@ -92,6 +95,27 @@ const nextStep = () => {
 const backStep = () => {
   currStep.value--;
 }
+
+const DeployClick = async()=>{
+
+}
+
+// const setContractFactory = async (nameData: any) => {
+//   let promise: any = [];
+//   nameData.map((item: number) => {
+//     formState.name.push(item.id);
+//     let selectItem: any = projectsContractData.find(val => { return val.id === item.id });
+//     // console.log(selectItem, 'selectItem')
+//     promise.push(contractFactory(selectItem.abiInfoData, selectItem.byteCode, argsMap.get(selectId.value), item.id));
+//   })
+//   const res = await Promise.all(promise)
+//   loading.value = false;
+//   const result = res.some(it => {
+//     return it !== undefined
+//   })
+//   result ? router.push(`/projects/${queryParams.id}/contracts-details/${queryParams.version}`) : loading.value = false
+// }
+
 const showContract = async(name: string) => {
   console.log("name:::", name);
   visible.value = true;
@@ -105,9 +129,15 @@ const connectWallet = async()=>{
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     const address = accounts[0];
     if(address){
-      isConnectedWallet.value = true
-      walletAccount.value = address
-      localStorage.setItem('nftAddress',address)
+      try {
+        // {name : "Scroll Alpha Testnet",  id: "82751", url: "https://alpha-rpc.scroll.io/l2", networkName: "Scroll Alpha Testnet"},
+        await addToChain('0x82751','Scroll Alpha Testnet','https://alpha-rpc.scroll.io/l2','ETH',18)
+        isConnectedWallet.value = true
+        walletAccount.value = address
+        localStorage.setItem('nftAddress',address)
+      } catch (err:any) {
+        message.error('Failed ',err)
+      }
     }
     console.log(`Metamask wallet address: ${address}`,accounts);
   } else {
