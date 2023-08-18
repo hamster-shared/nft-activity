@@ -104,29 +104,35 @@ const changeERC = async(val:any)=>{
   const name = val.target.value
   const res = await getContract(name?.toLowerCase())
   paramsArr.value = await res.getConstructorParams()
-  console.log('params~~~~~~~',paramsArr.value)
   contractValue.value = res.sourceCode
 }
 
-const DeployClick = async()=>{
+const DeployClick = async () => {
   try {
     loading.value = true
     // 第一个参数是合约名称
     // [] 是页面参数表单的数据，按照页面参数的从上到下收集的
-    await deploy(contract.value, []).then(result=>{
+    let newData: any = [];
+    if (paramsArr?.value.length > 0) {
+      paramsArr?.value.forEach((item: any) => {
+        newData[item.name] = formData[item.name];
+      })
+    }
+    await deploy(contract.value.toLocaleLowerCase(), newData).then(result => {
       // 合约地址
       console.log("contract_address:", result.address)
       // 交易hash
-      console.log("transaction_tx:",result.deployTransaction.hash)
+      console.log("transaction_tx:", result.deployTransaction.hash)
       loading.value = false
-    }).catch(error=>{
-      message.error('Failed ',error)
+    }).catch(error => {
+      message.error('Failed ', error)
       loading.value = false
     })
-  } catch (err:any) {
+  } catch (err: any) {
     message.error(err)
     loading.value = false
   }
+}
   
 const checkEmpty = () => {
   const emptyInputs = paramsArr?.value.filter((item: { name: string | number; }) => !formData[item.name]);
