@@ -32,7 +32,7 @@
     </div>
     <div class="col-span-2 p-[32px]">
       <div>
-        <ContractForm v-if="false" :checkValue="checkValue" :contractAddress="contractAddress" :inputs="inputs" :outputs="outputs" :abiInfo="abiInfo"
+        <ContractForm :checkValue="checkValue" :contractAddress="contractAddress" :inputs="inputs" :outputs="outputs" :abiInfo="abiInfo"
           :frameType="frameType" :buttonInfo="buttonInfo" :payable="payable" ref="contractForm" :aptosName="aptosName" :aptosAddress="aptosAddress">
         </ContractForm>
       </div>

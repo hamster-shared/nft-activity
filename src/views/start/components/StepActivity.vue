@@ -72,6 +72,7 @@ import { getContract } from '@/apis/index'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { addToChain } from '@/utils/changeNetwork'
+import { deploy } from '@/utils/contract'
 
 const router = useRouter()
 const loading = ref(false)
@@ -110,7 +111,25 @@ const changeERC = async(val:any)=>{
 }
 
 const DeployClick = async()=>{
-
+  try {
+    loading.value = true
+    // 第一个参数是合约名称
+    // [] 是页面参数表单的数据，按照页面参数的从上到下收集的
+    await deploy(contract.value, []).then(result=>{
+      // 合约地址
+      console.log("contract_address:", result.address)
+      // 交易hash
+      console.log("transaction_tx:",result.deployTransaction.hash)
+      loading.value = false
+    }).catch(error=>{
+      message.error('Failed ',error)
+      loading.value = false
+    })
+  } catch (err:any) {
+    message.error(err)
+    loading.value = false
+  }
+  
 }
 
 const showContract = async(name: string) => {
