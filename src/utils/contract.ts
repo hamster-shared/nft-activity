@@ -13,6 +13,7 @@ export function deploy(contractName: string, args: any[]): Promise<any> {
 
 // 合约调用
 export function call(contractName: string,address: string, method: string, args: any[]): Promise<string> {
+    console.log(`${contractName} ${address} ${method} ${args}`)
     return getContract(contractName)
         .then(contractEntity => {
             const callMethod = contractEntity.abi.find(t => t.type==="function" && t.name === method)
