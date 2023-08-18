@@ -79,6 +79,10 @@ const props = defineProps({
   subTitle:{
     type:String,
     default:''
+  },
+  contractName:{
+    type:String,
+    default:''
   }
 })
 const route:any = useRoute()
@@ -99,7 +103,7 @@ const payUnit = ref("ether")
 
 
 const formData = reactive<any>({});
-const { checkValue, contractAddress, abiInfo, inputs,outputs, buttonInfo,frameType, aptosName, aptosAddress, subTitle } = toRefs(props)
+const { checkValue, contractAddress, abiInfo, inputs,outputs, buttonInfo,frameType, aptosName, aptosAddress, subTitle,contractName } = toRefs(props)
 Object.assign(formState, { contractAddress: contractAddress?.value, checkValue: checkValue?.value, abiInfo: abiInfo?.value, frameType: frameType?.value })
 
 
@@ -111,6 +115,7 @@ const submit = async () => {
   }
   evmDeployFunction();
 }
+
 // evm合约方法调用
 const evmDeployFunction = async() => {
   isSend.value = true
@@ -121,8 +126,9 @@ const evmDeployFunction = async() => {
         newData[item.name] = formData[item.name];
       })
     }
-    console.log('evm合约方法调用参数：',route.query.name,address,formState.checkValue,Object.values(newData))
-    const res = await contractDeploy.call(route.query.name,address,formState.checkValue,Object.values(newData))
+    console.log('evm合约方法调用参数：',contractName?.value.toLowerCase(),address,formState.checkValue,Object.values(newData))
+    // debugger
+    const res = await contractDeploy.call(contractName?.value?.toLowerCase(),address,formState.checkValue,Object.values(newData))
     console.log('合约调用结果: ',res)
     hashValue.value = res
     isSend.value = false

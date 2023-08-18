@@ -34,7 +34,7 @@ const gotoAline = () => {
   window.open(alineLink.value);
 }
 const gotoView = () => {
-  router.push(`/view?name=${props.contractName}`);
+  router.push(`/view`);
 }
 const goAway = ()=>{
   window.open('https://twitter.com/Hamsternetio')

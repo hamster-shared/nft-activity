@@ -32,7 +32,7 @@
     </div>
     <div class="col-span-2 p-[32px]">
       <div>
-        <ContractForm :checkValue="checkValue" :contractAddress="contractAddress" :inputs="inputs" :outputs="outputs" :abiInfo="abiInfo"
+        <ContractForm :checkValue="checkValue" :contractAddress="contractAddress" :inputs="inputs" :outputs="outputs" :abiInfo="abiInfo" :contractName="contractName"
           :frameType="frameType" :buttonInfo="buttonInfo" :payable="payable" ref="contractForm" :aptosName="aptosName" :aptosAddress="aptosAddress">
         </ContractForm>
       </div>
@@ -52,9 +52,10 @@ const props = defineProps({
     type:Number,
     default:1
   },
+  contractName:String
 });
 
-const { contractAddress, abiInfo, frameType } = toRefs(props);
+const { contractAddress, abiInfo, frameType, contractName } = toRefs(props);
 
 const sendAbis = reactive<any>([])
 const callAbis = reactive<any>([])

@@ -11,7 +11,7 @@
         <div class="container mx-auto px-5 mt-[80px]">
           <div class="activity-card">
             <StepActivity @finishDeploy="finishDeploy" v-if="!isSuc"></StepActivity>
-            <SucActivity v-if="isSuc && false" :contractName="contractName"></SucActivity>
+            <SucActivity v-if="isSuc" :contractName="contractName"></SucActivity>
           </div>
         </div>
       </div>

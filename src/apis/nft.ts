@@ -32,3 +32,11 @@ export function apiSaveDeployInfo(params:saveDeployParams) {
         data:params
     })
 }
+
+// 获取部署信息
+export function apiGetDeployInfo(walletAddress:string,deployNetwork:string) {
+    return httpRequest({
+        url: `/api/deploy/info?walletAddress=${walletAddress}&deployNetwork=${deployNetwork}`,
+        method: "get",
+    })
+}

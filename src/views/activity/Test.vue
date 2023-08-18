@@ -47,25 +47,24 @@ onMounted(async () => {
     //     // 交易hash
     //     console.log("transaction_tx:",result.deployTransaction.hash)
     // })
-
     contract.call(
         "erc20",
-        "0x0942A785AD7eE6400028c4cC35B68FF8147CBED8",
+        "0x198794028eabae5adf5b64fb09ef962cd4a99434 ",
         "name",
         [])
         .then(result => {
             console.log(result)
         })
 
-    contract.call(
-        "erc20",
-        "0x0942A785AD7eE6400028c4cC35B68FF8147CBED8",
-        "increaseAllowance",
-        ["0xB362Eba0f3f42Ad32394f84ecb9c8d42bF1f2839","100"]
-    ).then(result => {
-        console.log(result)
-        console.log(typeof result)
-    })
+    // contract.call(
+    //     "erc20",
+    //     "0x0942A785AD7eE6400028c4cC35B68FF8147CBED8",
+    //     "increaseAllowance",
+    //     ["0xB362Eba0f3f42Ad32394f84ecb9c8d42bF1f2839","100"]
+    // ).then(result => {
+    //     console.log(result)
+    //     console.log(typeof result)
+    // })
 })
 
 </script>

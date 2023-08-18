@@ -50,6 +50,7 @@
         <!-- <a-button type="primary" class="btn-css mt-[60px]" @click="getStarted">Get Started</a-button> -->
       </div>
     </div>
+    <Test/>
   </div>
 </template>
 <script setup lang="ts">
@@ -57,7 +58,7 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { activityStatus } from '@/enums/index'
 import { apiActivityStatus } from '@/apis/nft'
-
+import Test from "./Test.vue"
 const router = useRouter();
 
 const showContent = ref(1);

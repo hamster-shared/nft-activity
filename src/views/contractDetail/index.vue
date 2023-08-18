@@ -12,7 +12,7 @@
         </a-table>
         <div class="text-[24px] font-bold mb-[32px]">Contract List</div>
         <ContractList v-if="abiInfo" :abiInfo="abiInfo" :contractAddress="contractAddress" :frameType="frameType"
-          @checkContract="checkContract">
+          @checkContract="checkContract" :contractName="contractName">
         </ContractList>
       </div>
     </div>
@@ -23,11 +23,14 @@ import { ref, onMounted } from 'vue';
 import ContractList from './components/ContractList.vue';
 import { useRoute } from 'vue-router';
 import { getContract } from '@/apis/index'
+import { apiGetDeployInfo } from '@/apis/nft'
+import { activeNetwork } from '@/utils/wallet'
 
 const route:any = useRoute()
 
 const abiInfo = ref()
-const contractAddress = ref('0x2FCd541b2e5f595Bbd669DBe535536D2Dcd9Df7F');
+const contractAddress = ref('');
+const contractName = ref()
 const frameType = ref(1);
 const columns = [
   {
@@ -48,17 +51,28 @@ const columns = [
     key: 'address',
   }
 ];
-const tableData = ref([{ network: 'Scroll Alpha Testnet', address: localStorage.getItem('nftAddress')}])
+const tableData = ref([{ network: '', address: ''}])
 
 const checkContract = ()=>{}
 
 // 获取abi
 const getAbiInfo = async()=>{
-  const res = await getContract(route.query.name)
+  const res = await getContract(contractName.value.toLowerCase())
   abiInfo.value = JSON.stringify(res.abi)
 }
 
-onMounted(()=>{
+// 查询部署信息
+const getDeployInfo = async()=>{
+  const walletAddress:any = localStorage.getItem('nftAddress')
+  const deployNetwork = activeNetwork.name
+  const res = await apiGetDeployInfo(walletAddress,deployNetwork)
+  tableData.value[0].network = res.data.deployNetwork
+  tableData.value[0].address = res.data.contractAddress
+  contractName.value = res.data.contractName
+}
+
+onMounted(async()=>{
+  await getDeployInfo()
   getAbiInfo()
 })
 </script>
