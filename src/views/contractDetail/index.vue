@@ -68,6 +68,7 @@ const getDeployInfo = async()=>{
   const res = await apiGetDeployInfo(walletAddress,deployNetwork)
   tableData.value[0].network = res.data.deployNetwork
   tableData.value[0].address = res.data.contractAddress
+  contractAddress.value = res.data.contractAddress
   contractName.value = res.data.contractName
 }
 

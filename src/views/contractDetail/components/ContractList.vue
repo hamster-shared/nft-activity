@@ -46,7 +46,10 @@ import YAML from "yaml";
 import ContractForm from "./ContractForm.vue";
 
 const props = defineProps({
-  contractAddress: String,
+  contractAddress: {
+    type:String,
+    default:''
+  },
   abiInfo: String,
   frameType: {
     type:Number,
