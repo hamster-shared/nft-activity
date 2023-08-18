@@ -1,3 +1,8 @@
+FROM node:16
+WORKDIR /app
+ADD . /app
+RUN yarn install && yarn build
+
 FROM nginx:1.20
 ADD script/default.conf /etc/nginx/conf.d
-ADD dist /usr/share/nginx/html
+COPY --from=0 /app/dist /usr/share/nginx/html
