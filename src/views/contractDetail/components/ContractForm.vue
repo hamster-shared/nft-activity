@@ -63,7 +63,10 @@ import { useRoute } from 'vue-router';
 import  * as contractDeploy from "@/utils/contract.ts"
 
 const props = defineProps({
-  contractAddress: String,
+  contractAddress: {
+    type:String,
+    default:''
+  },
   checkValue: String,
   abiInfo: String,
   buttonInfo: String,
@@ -126,9 +129,9 @@ const evmDeployFunction = async() => {
         newData[item.name] = formData[item.name];
       })
     }
-    console.log('evm合约方法调用参数：',contractName?.value.toLowerCase(),address,formState.checkValue,Object.values(newData))
+    console.log('evm合约方法调用参数：',contractName?.value.toLowerCase(),contractAddress.value,formState.checkValue,Object.values(newData))
     // debugger
-    const res = await contractDeploy.call(contractName?.value?.toLowerCase(),address,formState.checkValue,Object.values(newData))
+    const res = await contractDeploy.call(contractName?.value?.toLowerCase(),contractAddress.value,formState.checkValue,Object.values(newData))
     console.log('合约调用结果: ',res)
     hashValue.value = res
     isSend.value = false
