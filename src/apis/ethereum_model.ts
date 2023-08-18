@@ -14,6 +14,8 @@ export interface ContractInterface {
 
 export interface method {
     type: string
+    name: string
+    stateMutability: string
     inputs: {
         internalType: string
         name: string
