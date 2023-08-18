@@ -45,16 +45,17 @@
     <div v-else-if="currStep === 2" class="text-left px-[100px] mt-[50px]">
       <div class="text-[21px] font-medium mb-[20px]">constructor</div>
       <a-form :model="formData" layout="vertical">
-        <a-form-item label="Symbol" name="symbol" >
-          <a-input v-model:value="formData.symbol" autocomplete="off" placeholder="" allowClear></a-input>
-        </a-form-item>
-        <a-form-item label="Name" name="name" >
-          <a-input v-model:value="formData.name" autocomplete="off" placeholder="" allowClear></a-input>
-        </a-form-item>
+        <div v-if="paramsArr?.length" v-for="(item,index) in paramsArr">
+          <a-form-item :label="item.name || `param${index+1}`" class="" :name="item.name" :rules="[{ required: true, message: `Please input your ${item.name}` }]">
+            <a-input class="text-white" @change="checkEmpty"
+              :placeholder= "'Enter a value for ' + (item.type || item.internalType)" allowClear autocomplete="off"
+              v-model:value="formData[item.name || `param${index+1}`]"></a-input>
+          </a-form-item>
+        </div>
       </a-form>
       <div class="mt-[50px] text-center">
         <a-button type="primary" class="mr-[20px]" @click="backStep">Back</a-button>
-        <a-button type="primary" :disabled="!isEmpty" @click="DeployClick" :loading="loading">Deploy</a-button>
+        <a-button type="primary" :disabled="isEmpty" @click="DeployClick" :loading="loading">Deploy</a-button>
       </div>
     </div>
   </div>
@@ -66,7 +67,7 @@
   </a-modal>
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, reactive } from 'vue';
 import CodeEditor from '@/components/CodeEditor.vue'
 import { getContract } from '@/apis/index'
 import { useRouter } from 'vue-router'
@@ -78,16 +79,13 @@ const loading = ref(false)
 const visible = ref(false);
 const visibleTitle = ref('');
 const currStep = ref(2);
-const isEmpty = ref(false);
+const isEmpty = ref(true);
 const isConnectedWallet = ref(false);
 const walletAccount = ref('');
 const networkValue = ref('Scroll / Sepolia');
 const contract = ref('ERC20');
 const contractValue = ref("");
-const formData = ref({
-  symbol: '',
-  name: '',
-});
+const formData = reactive<any>({});
 const paramsArr = ref<any>([])
 
 const nextStep = () => {
@@ -109,8 +107,15 @@ const changeERC = async(val:any)=>{
   contractValue.value = res.sourceCode
 }
 
-const DeployClick = async()=>{
-
+const checkEmpty = () => {
+  const emptyInputs = paramsArr?.value.filter((item: { name: string | number; }) => !formData[item.name]);
+  if (emptyInputs.length === 0) {
+    isEmpty.value = false;
+  } else {
+    isEmpty.value = true;
+  }
+}
+const DeployClick = async () => {
 }
 
 const showContract = async(name: string) => {
