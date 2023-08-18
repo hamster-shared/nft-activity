@@ -73,7 +73,9 @@ import { getContract } from '@/apis/index'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { addToChain } from '@/utils/changeNetwork'
-import { deploy } from '@/utils/contract'
+import  * as contractDeploy from "@/utils/contract.ts"
+
+const emit = defineEmits(['finishDeploy'])
 
 const router = useRouter()
 const loading = ref(false)
@@ -118,19 +120,22 @@ const DeployClick = async () => {
         newData[item.name] = formData[item.name];
       })
     }
-    await deploy(contract.value.toLocaleLowerCase(), newData).then(result => {
+    await contractDeploy.deploy(contract.value.toLowerCase(), Object.values(newData)).then(result => {
       // 合约地址
       console.log("contract_address:", result.address)
       // 交易hash
       console.log("transaction_tx:", result.deployTransaction.hash)
       loading.value = false
+      emit('finishDeploy',contract.value.toLowerCase())
     }).catch(error => {
       message.error('Failed ', error)
+      console.log('DeployClick1:',error)
       loading.value = false
     })
   } catch (err: any) {
     message.error(err)
     loading.value = false
+    console.log('DeployClick2:',err)
   }
 }
   

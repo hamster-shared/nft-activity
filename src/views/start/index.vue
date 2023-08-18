@@ -10,8 +10,8 @@
         </div>
         <div class="container mx-auto px-5 mt-[80px]">
           <div class="activity-card">
-            <StepActivity v-if="!isSuc"></StepActivity>
-            <SucActivity v-if="isSuc"></SucActivity>
+            <StepActivity @finishDeploy="finishDeploy" v-if="!isSuc"></StepActivity>
+            <SucActivity v-if="isSuc" :contractName="contractName"></SucActivity>
           </div>
         </div>
       </div>
@@ -25,6 +25,12 @@ import StepActivity from "./components/StepActivity.vue";
 import SucActivity from "./components/SucActivity.vue";
 
 const isSuc = ref(false);
+const contractName = ref()
+
+const finishDeploy = (name:string)=>{
+  isSuc.value = true
+  contractName.value = name
+}
 
 </script>
 <style scoped lang="less">

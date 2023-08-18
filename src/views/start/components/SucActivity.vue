@@ -5,7 +5,7 @@
     </div>
     <div class="text-[36px] leading-[44px] font-extrabold mt-[16px]">Congratulations！</div>
     <div class="flex justify-center mt-[20px]">
-      <div class="text-[18px] font-light w-[500px]">您已完成部署，并已获得空投资格。<br>届时我们将直接将联名NFT直接空投至0xae2…d34b钱包地址，请留意Hamster社区公告。</div>
+      <div class="text-[18px] font-light w-[500px]">You have a project on Scroll right now and your address<br>has been registered. Please stay tuned and follow us.</div>
     </div>
     <a-button type="primary" class="mt-[30px] mb-[40px]" @click="gotoView">View</a-button>
     <div class="flex justify-center items-center cursor-pointer" @click="gotoAline">
@@ -18,6 +18,13 @@
 import { ref } from 'vue'
 import { useRouter } from "vue-router";
 
+const props = defineProps({
+  contractName:{
+    type:String,
+    defalut:''
+  }
+})
+
 const router = useRouter();
 
 const alineLink = ref('https://hamsternet.io/')
@@ -25,7 +32,7 @@ const gotoAline = () => {
   window.open(alineLink.value);
 }
 const gotoView = () => {
-  router.push("/view");
+  router.push(`/view?name=${props.contractName}`);
 }
 </script>
 <style scoped lang="less">
