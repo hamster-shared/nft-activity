@@ -19,14 +19,14 @@ export default defineConfig({
     // 配置文件扩展名
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json'],
   },
-  // server: {
-  //   proxy: {
-  //     "/api": {
-  //       target:'',
-  //       changeOrigin: true, //是否跨域
-  //       rewrite: (path) => path.replace(/^\/api/, ""),
-  //     },
-  //   },
-  //   host: true,//同一局域网可以访问本地服务
-  // },
+  server: {
+    proxy: {
+      "/api": {
+        target:'http://61.172.179.6:30317/api',
+        changeOrigin: true, //是否跨域
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+    host: true,//同一局域网可以访问本地服务
+  },
 })

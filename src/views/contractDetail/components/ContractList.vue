@@ -48,7 +48,10 @@ import ContractForm from "./ContractForm.vue";
 const props = defineProps({
   contractAddress: String,
   abiInfo: String,
-  frameType: Number,
+  frameType: {
+    type:Number,
+    default:1
+  },
 });
 
 const { contractAddress, abiInfo, frameType } = toRefs(props);
@@ -120,29 +123,16 @@ const checkContract = (name: string, val: any, text: string, index: number) => {
 }
 
 onMounted(()=>{
-  // debugger send call
-  // debugger
-  console.log(111111111111111,contractAddress?.value, abiInfo?.value, frameType?.value)
-  if(frameType?.value && frameType?.value==2){
-    Object.assign(sendAbis, data.exposed_functions)
-    Object.assign(callAbis, data.structs)
-    console.log('sendAbis,callAbis',sendAbis,callAbis)
-    aptosName.value = data.name
-    aptosAddress.value = data.address
-    commonFirst()
-  }else{
-    console.log('000000000000000')
-    abiInfoData.map((item: any) => {
-      if (item.type === "function") {
-        if (!item.stateMutability || item.stateMutability === 'nonpayable' || item.stateMutability === 'payable') {
-          sendAbis.push(item)
-        } else if (item.stateMutability === 'view' || item.stateMutability === 'constant') {
-          callAbis.push(item)
-        }
+  abiInfoData.map((item: any) => {
+    if (item.type === "function") {
+      if (!item.stateMutability || item.stateMutability === 'nonpayable' || item.stateMutability === 'payable') {
+        sendAbis.push(item)
+      } else if (item.stateMutability === 'view' || item.stateMutability === 'constant') {
+        callAbis.push(item)
       }
-      commonFirst()
-    })
-  }
+    }
+    commonFirst()
+  })
 })
 
 </script>

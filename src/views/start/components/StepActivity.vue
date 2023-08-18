@@ -8,7 +8,7 @@
     <div class="mt-[80px]" v-if="currStep === 0">
       <div class="flex justify-center">
         <a-select v-model:value="networkValue" class="w-[387px] text-left" disabled>
-          <a-select-option value="Scroll / Sepolia">Scroll / Sepolia</a-select-option>
+          <a-select-option :value="activeNetwork.name">{{activeNetwork.name}}</a-select-option>
         </a-select>
         <a-button v-if="!isConnectedWallet" type="primary" ghost class="ml-[20px] !bg-[#FFFFFF]" @click="connectWallet">Connect Wallet</a-button>
         <div v-if="isConnectedWallet" class="ml-[20px] h-[47px] px-[20px] border border-solid border-[#5C64FF] bg-[#FFFFFF] rounded-[8px] flex items-center">
@@ -74,6 +74,8 @@ import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { addToChain } from '@/utils/changeNetwork'
 import  * as contractDeploy from "@/utils/contract.ts"
+import { apiActivityDeploy, apiSaveDeployInfo } from '@/apis/nft'
+import { activeNetwork, addScrollSepoliaChain } from '@/utils/wallet'
 
 const emit = defineEmits(['finishDeploy'])
 
@@ -81,22 +83,28 @@ const router = useRouter()
 const loading = ref(false)
 const visible = ref(false);
 const visibleTitle = ref('');
-const currStep = ref(2);
+const currStep = ref(0);
 const isEmpty = ref(true);
 const isConnectedWallet = ref(false);
 const walletAccount = ref('');
-const networkValue = ref('Scroll / Sepolia');
+const networkValue = ref('Scroll Alpha Testnet');
 const contract = ref('ERC20');
 const contractValue = ref("");
 const formData = reactive<any>({});
 const paramsArr = ref<any>([])
 
-const nextStep = () => {
-  if(currStep.value==1){
-
+const nextStep = async() => {
+  if(currStep.value==0){
+    // 要先判断用户是否已经部署成功，如果部署成功直接跳转
+    const res = await apiActivityDeploy(walletAccount.value,activeNetwork.name)
+    if(res.data){
+      emit('finishDeploy')
+      return
+    }
   }
   currStep.value++;
 }
+
 const backStep = () => {
   currStep.value--;
 }
@@ -125,6 +133,14 @@ const DeployClick = async () => {
       console.log("contract_address:", result.address)
       // 交易hash
       console.log("transaction_tx:", result.deployTransaction.hash)
+      const params = {
+        fkActivityId: 1,
+        walletAddress: walletAccount.value,
+        deployNetwork: activeNetwork.name,
+        contractName: contract.value,
+        contractAddress: result.address,
+      }
+      const res = apiSaveDeployInfo(params)
       loading.value = false
       emit('finishDeploy',contract.value.toLowerCase())
     }).catch(error => {
@@ -161,7 +177,8 @@ const connectWallet = async()=>{
     if(address){
       try {
         // {name : "Scroll Alpha Testnet",  id: "82751", url: "https://alpha-rpc.scroll.io/l2", networkName: "Scroll Alpha Testnet"},
-        await addToChain('0x82751','Scroll Alpha Testnet','https://alpha-rpc.scroll.io/l2','ETH',18)
+        // await addToChain('0x82751','Scroll Alpha Testnet','https://alpha-rpc.scroll.io/l2','ETH',18)
+        await addScrollSepoliaChain()
         isConnectedWallet.value = true
         walletAccount.value = address
         localStorage.setItem('nftAddress',address)

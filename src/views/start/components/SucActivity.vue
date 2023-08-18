@@ -5,7 +5,9 @@
     </div>
     <div class="text-[36px] leading-[44px] font-extrabold mt-[16px]">Congratulations！</div>
     <div class="flex justify-center mt-[20px]">
-      <div class="text-[18px] font-light w-[500px]">You have a project on Scroll right now and your address<br>has been registered. Please stay tuned and follow us.</div>
+      <div class="text-[18px] font-light w-[600px]">Congratulations! You have completed your project on Scroll<br>
+        Sepolia Testnet just now and your wallet address has been noted.<br>
+        Stay tuned and follow us on <span class="text-[#5C64FF] font-bold cursor-pointer underline" @click="goAway">twitter</span> for further announcements.</div>
     </div>
     <a-button type="primary" class="mt-[30px] mb-[40px]" @click="gotoView">View</a-button>
     <div class="flex justify-center items-center cursor-pointer" @click="gotoAline">
@@ -33,6 +35,9 @@ const gotoAline = () => {
 }
 const gotoView = () => {
   router.push(`/view?name=${props.contractName}`);
+}
+const goAway = ()=>{
+  window.open('https://twitter.com/Hamsternetio')
 }
 </script>
 <style scoped lang="less">

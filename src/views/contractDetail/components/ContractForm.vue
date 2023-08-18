@@ -59,6 +59,8 @@ import { reactive, toRefs, watch, ref } from 'vue';
 import * as ethers from "ethers";
 import YAML from "yaml";
 import { message } from 'ant-design-vue';
+import { useRoute } from 'vue-router';
+import  * as contractDeploy from "@/utils/contract.ts"
 
 const props = defineProps({
   contractAddress: String,
@@ -79,6 +81,8 @@ const props = defineProps({
     default:''
   }
 })
+const route:any = useRoute()
+const address:any = localStorage.getItem('nftAddress')
 const isSend = ref(false);
 const hashValue = ref('')
 const formRef = ref();
@@ -108,62 +112,24 @@ const submit = async () => {
   evmDeployFunction();
 }
 // evm合约方法调用
-const evmDeployFunction = () => {
-  // debugger
+const evmDeployFunction = async() => {
   isSend.value = true
-  const { ethereum } = window;
-  let provider = new ethers.providers.Web3Provider(ethereum);
-  let abi = YAML.parse(formState.abiInfo);
   try {
-    if (frameType.value != 2) {
-      let contract = new ethers.Contract(formState.contractAddress, abi, provider.getSigner());
-      if (props.buttonInfo === 'Transact') {
-        // send 方法
-        console.log(...(Object.values(formData)), 'data')
-        let newData:any = {};
-        if (inputs?.value.length > 0) {
-          inputs?.value.forEach((item: any) => {
-            newData[item.name] = formData[item.name];
-          })
-        }
-
-        const value = ethers.utils.parseUnits(payableValue.value+"",payUnit.value)
-
-        console.log(newData,'---new');
-        console.log('Transact传入的参数：',...(Object.values(newData)),formState.checkValue)
-        contract[formState.checkValue](...(Object.values(newData)),{value: props.payable?value:0}).then((tx: any) => {
-          tx.wait().then((result: any) => {
-            // isSend.value = false;
-            hashValue.value = tx.hash;
-          }).catch((err: any) => {
-            console.log(err, '调用失败err')
-            message.error('调用失败')
-            hashValue.value = 'No Data';
-          }).finally(() => {
-            isSend.value = false;
-          })
-        }).catch((err:any)=>{
-          message.error(err.message)
-          isSend.value = false;
-        })
-      } else {
-        contract[formState.checkValue](...(Object.values(formData))).then((tx: any) => {
-          if (tx._isBigNumber) {
-            hashValue.value = ethers.utils.formatEther(tx._hex);
-          } else {
-            hashValue.value = tx;
-          }
-          isSend.value = false;
-        }).catch((e:any)=>{
-          console.log('eeeeeeeeee',e)
-          isSend.value = false;
-        })
-      }
+    let newData:any = {};
+    if (inputs?.value.length > 0) {
+      inputs?.value.forEach((item: any) => {
+        newData[item.name] = formData[item.name];
+      })
     }
+    console.log('evm合约方法调用参数：',route.query.name,address,formState.checkValue,Object.values(newData))
+    const res = await contractDeploy.call(route.query.name,address,formState.checkValue,Object.values(newData))
+    console.log('合约调用结果: ',res)
+    hashValue.value = res
+    isSend.value = false
   } catch (errorInfo: any) {
     console.log('errorInfo:' + errorInfo)
     isSend.value = false;
-    message.error('调用失败')
+    message.error('Failed ',errorInfo)
   }
 }
 
