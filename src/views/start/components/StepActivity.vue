@@ -27,7 +27,7 @@
       <a-button type="primary" :disabled="!isConnectedWallet" class="mt-[169px]" @click="nextStep">Next</a-button>
     </div>
     <div class="mt-[80px]" v-else-if="currStep === 1">
-      <a-radio-group v-model:value="contract">
+      <a-radio-group v-model:value="contract" @change="changeERC">
         <a-radio-button value="ERC20">ERC20</a-radio-button>
         <a-radio-button value="ERC721">ERC721</a-radio-button>
         <a-radio-button value="ERC1155">ERC1155</a-radio-button>
@@ -88,40 +88,35 @@ const formData = ref({
   symbol: '',
   name: '',
 });
+const paramsArr = ref<any>([])
 
 const nextStep = () => {
+  if(currStep.value==1){
+
+  }
   currStep.value++;
 }
 const backStep = () => {
   currStep.value--;
 }
 
+const changeERC = async(val:any)=>{
+  console.log('changeERC:',val)
+  const name = val.target.value
+  const res = await getContract(name?.toLowerCase())
+  paramsArr.value = await res.getConstructorParams()
+  console.log('params~~~~~~~',paramsArr.value)
+  contractValue.value = res.sourceCode
+}
+
 const DeployClick = async()=>{
 
 }
-
-// const setContractFactory = async (nameData: any) => {
-//   let promise: any = [];
-//   nameData.map((item: number) => {
-//     formState.name.push(item.id);
-//     let selectItem: any = projectsContractData.find(val => { return val.id === item.id });
-//     // console.log(selectItem, 'selectItem')
-//     promise.push(contractFactory(selectItem.abiInfoData, selectItem.byteCode, argsMap.get(selectId.value), item.id));
-//   })
-//   const res = await Promise.all(promise)
-//   loading.value = false;
-//   const result = res.some(it => {
-//     return it !== undefined
-//   })
-//   result ? router.push(`/projects/${queryParams.id}/contracts-details/${queryParams.version}`) : loading.value = false
-// }
 
 const showContract = async(name: string) => {
   console.log("name:::", name);
   visible.value = true;
   visibleTitle.value = name;
-  const res = await getContract(name?.toLowerCase())
-  contractValue.value = res.sourceCode
 }
 
 const connectWallet = async()=>{
@@ -162,6 +157,8 @@ const getAddress = ()=>{
 
 onMounted(()=>{
   getAddress()
+  // 默认拿erc20的数据信息
+  changeERC({target:{value:'erc20'}})
 })
 </script>
 <style scoped lang="less">
