@@ -2,6 +2,7 @@ import * as ethers from "ethers";
 import {provider} from "./wallet.ts"
 import {getContract} from "@/apis";
 
+// 合约部署
 export function deploy(contractName: string, args: any[]): Promise<any> {
     return getContract(contractName)
         .then(contract => {
@@ -10,7 +11,7 @@ export function deploy(contractName: string, args: any[]): Promise<any> {
         })
 }
 
-
+// 合约调用
 export function call(contractName: string,address: string, method: string, args: any[]): Promise<string> {
     return getContract(contractName)
         .then(contractEntity => {
@@ -23,7 +24,7 @@ export function call(contractName: string,address: string, method: string, args:
             if(callMethod.stateMutability === "view"){
                 return callPromise
             }else if(callMethod.stateMutability === "nonpayable" || callMethod.stateMutability === "payable"){
-                return callPromise.then(result => { return result.wait()}).then(result => {return JSON.stringify(result)})
+                return callPromise.then(result => { return result.wait()}).then(result => {return result.transactionHash})
             }
         })
 }
