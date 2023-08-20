@@ -1,7 +1,7 @@
 <template>
   <div class="bg-[#000000]  text-white">
 
-    <div class="container mx-auto md:py-20 py-14 px-5">
+    <div class="container mx-auto md:py-20 py-14 px-[100px]">
       <div class="grid grid-cols-1 lg:grid-cols-2 mb-[60px]">
         <div>
           <img class="h-[20px] md:h-[32px]" src="@/assets/images/header.png">

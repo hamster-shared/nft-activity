@@ -1,7 +1,7 @@
 <template>
   <div class="bg-[#000000]">
     <div class="activity-bg md:pt-[80px] text-center">
-      <div class="container mx-auto px-5">
+      <div class="container mx-auto px-[100px]">
         <div class="flex justify-center">
           <img src="@/assets/images/activity-logos.png" class="h-[68px]"/>
         </div>
@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="activity-bg3">
-      <div class="container mx-auto px-5 text-center">
+      <div class="container mx-auto px-[100px] text-center">
         <div class="text-[40px] font-semibold leading-[74px] pt-[78px] mb-[40px]">Time</div>
         <div class="activity-card py-[30px] leading-[30px] text-[18px]">
           <div>Start: 22.Aug.2023 00:00 GMT+8</div>
@@ -29,7 +29,7 @@
         <!-- <a-button type="primary" class="btn-css mt-[60px]" @click="getStarted">Get Started</a-button> -->
       </div>
     </div>
-    <div class="container mx-auto px-5 py-[120px]">
+    <div class="container mx-auto px-[100px] py-[120px]">
       <div class="pb-[60px] text-[40px] font-extrabold leading-[74px] text-center activity-text-ExtraBold">Requirement</div>
       <div v-for="(item,key) in questionList" :key="key" class="py-[40px]" :class="{ 'activity-border-b' : key === questionList.length - 1, 'activity-border-t': key === 0}">
         <div class="flex justify-between leading-[30px]">

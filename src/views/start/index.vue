@@ -1,14 +1,14 @@
 <template>
   <div class="bg-[#000000]">
     <div class="activity-bg md:pt-[80px] text-center">
-      <div class="container mx-auto px-5">
+      <div class="container mx-auto px-[100px]">
         <div class="flex justify-center">
           <img src="@/assets/images/activity-logos.png" class="h-[68px]"/>
         </div>
         <div class="mt-[50px] flex justify-center">
           <div class="activity-title-text">Hamster&Scroll joint NFT airdrop</div>
         </div>
-        <div class="container mx-auto px-5 mt-[80px]">
+        <div class="container mx-auto px-[100px] mt-[80px]">
           <div class="activity-card">
             <StepActivity @finishDeploy="finishDeploy" v-if="!isSuc"></StepActivity>
             <SucActivity v-if="isSuc" :contractName="contractName"></SucActivity>
