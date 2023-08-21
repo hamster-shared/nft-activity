@@ -35,7 +35,7 @@
       <div v-for="(item,key) in questionList" :key="key" class="pt-[40px]" :class="{ 'activity-border-b pb-[40px]' : key === questionList.length - 1, 'activity-border-t': key === 0}">
         <div class="flex justify-between leading-[30px]">
           <div class="flex">
-            <div class="w-[50px] text-[24px] font-semibold activity-text-SemiBold">0{{ key+1 }}</div>
+            <div class="w-[120px] text-[24px] font-semibold activity-text-SemiBold">Step 0{{ key+1 }}:</div>
             <div>
               <div class="text-[24px] font-semibold activity-text-SemiBold">{{ item.title }}</div>
             </div>
@@ -65,9 +65,9 @@ const router = useRouter();
 const showContent = ref(1);
 const status = ref()
 const questionList = ref([
-  { title: 'Click the “Start Now” below', content: ''},
+  { title: 'Click the “Start Now” above', content: ''},
   { title: 'Follow the instructions step by step (about 2-3 mins)', content: ''},
-  { title: 'Done！', content: ''},
+  { title: 'Bingo！', content: ''},
   { title: 'Wait for the NFT to be airdropped to your wallet', content: ''}
 ]);
 const handleContent = (num: string) => {
