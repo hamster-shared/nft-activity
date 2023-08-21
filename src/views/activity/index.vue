@@ -18,17 +18,18 @@
           <img src="@/assets/images/activity-bg2.png" class="w-[500px]"/>
         </div>
       </div>
-    </div>
-    <div class="activity-bg3">
-      <div class="container mx-auto px-[100px] text-center">
-        <div class="text-[40px] font-semibold leading-[74px] pt-[78px] mb-[30px]">Time</div>
-        <div class="activity-card py-[30px] leading-[30px] text-[24px]">
-          <div>Start: 22.Aug.2023 00:00 GMT+8</div>
-          <div class="mt-[30px]">End: 31.Aug.2023 23:59 GMT+8</div>
+      <div class="activity-bg3">
+        <div class="container mx-auto px-[100px] text-center">
+          <div class="text-[40px] font-semibold leading-[74px] pt-[78px] mb-[30px]">Time</div>
+          <div class="activity-card py-[30px] leading-[30px] text-[24px]">
+            <div>Start: 22.Aug.2023 00:00 GMT+8</div>
+            <div class="mt-[30px]">End: 31.Aug.2023 23:59 GMT+8</div>
+          </div>
+          <!-- <a-button type="primary" class="btn-css mt-[60px]" @click="getStarted">Get Started</a-button> -->
         </div>
-        <!-- <a-button type="primary" class="btn-css mt-[60px]" @click="getStarted">Get Started</a-button> -->
       </div>
     </div>
+    
     <div class="container mx-auto px-[100px] py-[120px]">
       <div class="pb-[60px] text-[40px] font-extrabold leading-[74px] text-center activity-text-ExtraBold">Requirement</div>
       <div v-for="(item,key) in questionList" :key="key" class="pt-[40px]" :class="{ 'activity-border-b pb-[40px]' : key === questionList.length - 1, 'activity-border-t': key === 0}">
@@ -50,6 +51,7 @@
         <!-- <a-button type="primary" class="btn-css mt-[60px]" @click="getStarted">Get Started</a-button> -->
       </div>
     </div>
+    <Test/>
   </div>
 </template>
 <script setup lang="ts">
@@ -57,6 +59,7 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { activityStatus } from '@/enums/index'
 import { apiActivityStatus } from '@/apis/nft'
+import Test from "./Test.vue"
 const router = useRouter();
 
 const showContent = ref(1);
