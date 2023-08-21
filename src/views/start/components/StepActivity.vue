@@ -60,7 +60,7 @@
     </div>
   </div>
 
-  <a-modal :title="visibleTitle"  v-model:visible="visible" :footer="null" width="540px">
+  <a-modal :title="visibleTitle"  v-model:visible="visible" :footer="null" width="740px">
     <div style="height: 360px">
       <CodeEditor :readOnly="true" :value="contractValue"></CodeEditor>
     </div>
@@ -168,6 +168,9 @@ const showContract = async(name: string) => {
   console.log("name:::", name);
   visible.value = true;
   visibleTitle.value = name;
+  const res = await getContract(name?.toLowerCase())
+  // paramsArr.value = await res.getConstructorParams()
+  contractValue.value = res.sourceCode
 }
 
 const connectWallet = async()=>{
