@@ -3,26 +3,26 @@
     <div class="activity-bg md:pt-[80px] text-center">
       <div class="container mx-auto px-[100px]">
         <div class="flex justify-center">
-          <img src="@/assets/images/activity-logos.png" class="h-[68px]"/>
+          <img src="@/assets/images/activity-logos.png" class="h-[46px]"/>
         </div>
-        <div class="mt-[50px] flex justify-center">
+        <div class="mt-[100px] flex justify-center">
           <div class="activity-title-text">Joint Scroll & Hamster Airdrop</div>
         </div>
-        <div class="flex justify-center mt-[20px]">
-          <div class="text-[18px] leading-[30px] w-[854px]">
+        <div class="flex justify-center mt-[40px]">
+          <div class="text-[18px] leading-[30px] w-[730px]">
             Welcome all Hamsters to the Hamster & Scroll Testnet Campaign. Use the Hamster product and start a new web3 journey on Scroll. Please follow our instructions and complete the tasks. Join the native zkEVM.
           </div>
         </div>
         <a-button type="primary" class="btn-css mt-[60px]" @click="getStarted" :disabled="status==3">{{activityStatus[status]}}</a-button>
-        <div class="flex justify-center">
-          <img src="@/assets/images/activity-bg2.png" class="h-[700px]"/>
+        <div class="flex justify-center mt-[60px]">
+          <img src="@/assets/images/activity-bg2.png" class="w-[500px]"/>
         </div>
       </div>
     </div>
     <div class="activity-bg3">
       <div class="container mx-auto px-[100px] text-center">
-        <div class="text-[40px] font-semibold leading-[74px] pt-[78px] mb-[40px]">Time</div>
-        <div class="activity-card py-[30px] leading-[30px] text-[18px]">
+        <div class="text-[40px] font-semibold leading-[74px] pt-[78px] mb-[30px]">Time</div>
+        <div class="activity-card py-[30px] leading-[30px] text-[24px]">
           <div>Start: 22.Aug.2023 00:00 GMT+8</div>
           <div class="mt-[30px]">End: 31.Aug.2023 23:59 GMT+8</div>
         </div>
@@ -31,7 +31,7 @@
     </div>
     <div class="container mx-auto px-[100px] py-[120px]">
       <div class="pb-[60px] text-[40px] font-extrabold leading-[74px] text-center activity-text-ExtraBold">Requirement</div>
-      <div v-for="(item,key) in questionList" :key="key" class="py-[40px]" :class="{ 'activity-border-b' : key === questionList.length - 1, 'activity-border-t': key === 0}">
+      <div v-for="(item,key) in questionList" :key="key" class="pt-[40px]" :class="{ 'activity-border-b pb-[40px]' : key === questionList.length - 1, 'activity-border-t': key === 0}">
         <div class="flex justify-between leading-[30px]">
           <div class="flex">
             <div class="w-[50px] text-[24px] font-semibold activity-text-SemiBold">0{{ key+1 }}</div>
