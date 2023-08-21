@@ -20,6 +20,9 @@ export default defineConfig({
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json'],
   },
   server: {
+    host: '0.0.0.0', //ip地址
+    port: 5175, //端口号
+    open: false, //启动后是否自动打开浏览器
     proxy: {
       "/api": {
         target:'http://61.172.179.6:30317/api',
@@ -27,6 +30,5 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
-    host: true,//同一局域网可以访问本地服务
   },
 })
