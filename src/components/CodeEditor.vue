@@ -66,8 +66,10 @@ export default {
         overviewRulerBorder: false,
         fixedOverflowWidgets: false,
         scrollbar: {
-          alwaysConsumeMouseWheel: false,
-          horizontal: 'hidden'
+          // alwaysConsumeMouseWheel: false,
+          // horizontal: 'hidden',
+          verticalScrollbarSize: 6, // 垂直滚动条宽度，默认px
+          horizontalScrollbarSize: 6 // 水平滚动条高度
         },
       });
       // Monitoring value change
