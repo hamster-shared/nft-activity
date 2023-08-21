@@ -1,6 +1,6 @@
 <template>
   <div class="bg-[#000000]">
-    <div class="container mx-auto px-5">
+    <div class="container mx-auto px-[100px]">
       <div class="pt-[50px] pb-[60px]">
         <a-table :dataSource="tableData" :columns="columns" class="mb-[32px]" :pagination="false">
           <template #bodyCell="{ record, column }">

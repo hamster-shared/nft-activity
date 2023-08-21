@@ -49,7 +49,7 @@
           <img src="@/assets/images/copy.svg" class="mr-1" />copy
         </span>
       </div>
-      <a-textarea class="text-white" placeholder="" disabled :rows="4" v-model:value="hashValue"
+      <a-textarea class="!text-white" placeholder="" disabled :rows="4" v-model:value="hashValue"
         ref="textareaRef" />
     </div>
   </a-form>

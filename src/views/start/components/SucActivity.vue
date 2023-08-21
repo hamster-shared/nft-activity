@@ -7,7 +7,7 @@
     <div class="flex justify-center mt-[20px]">
       <div class="text-[18px] font-light w-[600px]">Congratulations! You have completed your project on Scroll<br>
         Sepolia Testnet just now and your wallet address has been noted.<br>
-        Stay tuned and follow us on <span class="text-[#5C64FF] font-bold cursor-pointer underline" @click="goAway">twitter</span> for further announcements.</div>
+        Stay tuned and follow us on <span class="text-[#007AFF] font-bold cursor-pointer underline hover:text-[#858fff]" @click="goAway">twitter</span> for further announcements.</div>
     </div>
     <a-button type="primary" class="mt-[30px] mb-[40px]" @click="gotoView">View</a-button>
     <div class="flex justify-center items-center cursor-pointer" @click="gotoAline">
