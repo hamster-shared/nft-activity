@@ -10,7 +10,7 @@
         <a-select v-model:value="activeNetwork.name" class="w-[387px] text-left" disabled>
           <a-select-option :value="activeNetwork.name">{{activeNetwork.name}}</a-select-option>
         </a-select>
-        <a-button v-if="!isConnectedWallet" type="primary" ghost class="ml-[20px] !bg-[#FFFFFF]" @click="connectWallet">Connect Wallet</a-button>
+        <a-button v-if="!isConnectedWallet" type="primary" ghost class="ml-[20px] !bg-[#FFFFFF]" @click="connectWalletCon">Connect Wallet</a-button>
         <div v-if="isConnectedWallet" class="ml-[20px] h-[47px] px-[20px] border border-solid border-[#5C64FF] bg-[#FFFFFF] rounded-[8px] flex items-center">
           <img src="@/assets/images/metamask-icon.svg" class="h-[20px] mr-2" />
           <div class="text-[#000000]">
@@ -75,7 +75,13 @@ import { message } from 'ant-design-vue'
 import { addToChain } from '@/utils/changeNetwork'
 import  * as contractDeploy from "@/utils/contract.ts"
 import { apiActivityDeploy, apiSaveDeployInfo } from '@/apis/nft'
-import { activeNetwork, addScrollSepoliaChain } from '@/utils/wallet'
+import {
+    activeNetwork,
+    addScrollSepoliaChain,
+    connectWallet,
+    getCurrentNetworkId,
+    switchToScrollSepolia
+} from "@/utils/wallet.ts";
 
 const emit = defineEmits(['finishDeploy'])
 
@@ -173,15 +179,33 @@ const showContract = async(name: string) => {
   contractValue.value = res.sourceCode
 }
 
-const connectWallet = async()=>{
+const connectWalletCon = async()=>{
+  // 连接metamask 钱包
+  await connectWallet()
+  // 获取当前链id
+  const chainId = await getCurrentNetworkId()
+  console.log(chainId)
+  //判断当前链id 是否scroll_sepolia网络
+  if(chainId !== activeNetwork.id) {
+      //尝试切换到scroll_sepolia网络
+      switchToScrollSepolia().then(() => {
+          console.log("switch scroll_sepolia success")
+      }).catch(err => {
+          // 切换失败，加入scroll_sepolia网络
+          addScrollSepoliaChain().then(()=> {
+              // 再次尝试切换换到scroll_sepolia网络
+              switchToScrollSepolia().then().catch(()=>{
+                  console.error("unknow err")
+              })
+          })
+      })
+  }
+  // 获取钱包地址并且缓存
   if (window.ethereum) {
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     const address = accounts[0];
     if(address){
       try {
-        // {name : "Scroll Alpha Testnet",  id: "82751", url: "https://alpha-rpc.scroll.io/l2", networkName: "Scroll Alpha Testnet"},
-        // await addToChain('0x82751','Scroll Alpha Testnet','https://alpha-rpc.scroll.io/l2','ETH',18)
-        await addScrollSepoliaChain()
         isConnectedWallet.value = true
         walletAccount.value = address
         localStorage.setItem('nftAddress',address)
