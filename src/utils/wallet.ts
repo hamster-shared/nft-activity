@@ -14,7 +14,7 @@ const networks = [{
     rpc: "https://alpha-rpc.scroll.io/l2",
 }]
 
-export const activeNetwork = networks[1]
+export const activeNetwork = networks[0]
 
 // 连接钱包
 export function connectWallet():Promise<any> {
