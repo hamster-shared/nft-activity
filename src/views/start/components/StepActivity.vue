@@ -200,6 +200,23 @@ const connectWalletCon = async()=>{
           })
       })
   }
+  // 获取钱包地址并且缓存
+  if (window.ethereum) {
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const address = accounts[0];
+    if(address){
+      try {
+        isConnectedWallet.value = true
+        walletAccount.value = address
+        localStorage.setItem('nftAddress',address)
+      } catch (err:any) {
+        message.error('Failed ',err)
+      }
+    }
+    console.log(`Metamask wallet address: ${address}`,accounts);
+  } else {
+    message.error('Please install MetaMask!')
+  }
 }
 
 const disconnectWallet = ()=>{
