@@ -10,7 +10,7 @@
         </div>
         <div class="flex justify-center mt-[40px]">
           <div class="text-[18px] leading-[30px] w-[730px]">
-            Welcome all Hamsters to the Hamster & Scroll Testnet Campaign. Use the Hamster product and start a new web3 journey on Scroll. Please follow our instructions and complete the tasks. Join the native zkEVM.
+            Welcome all Hamsters to the Hamster & Scroll Testnet NFT Airdrop Campaign. Use the Hamster product and start a new web3 journey on Scroll. Please follow our instructions and complete the tasks. Join the native zkEVM.
           </div>
         </div>
         <a-button type="primary" class="btn-css mt-[60px]" @click="getStarted" :disabled="status==3">{{activityStatus[status]}}</a-button>
@@ -91,6 +91,9 @@ const handleContent = (num: string) => {
   }
 }
 const getStarted = () => {
+  if(status.value==1 || status.value==0){
+    return
+  }
   router.push("/start");
 }
 
