@@ -7,7 +7,7 @@ export function deploy(contractName: string, args: any[]): Promise<any> {
     return getContract(contractName)
         .then(contract => {
             const factory = new ethers.ContractFactory(JSON.stringify(contract.abi), contract.bytecode, provider.getSigner())
-            return factory.deploy(...args).then((contract) => {return contract.deployTransaction.wait() })
+            return factory.deploy(...args,{}).then((contract) => {return contract.deployTransaction.wait() })
         })
 }
 
