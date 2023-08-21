@@ -8,13 +8,9 @@ const networks = [{
     id: "0x8274f",
     name: "Scroll Sepolia Testnet",
     rpc: "https://sepolia-rpc.scroll.io"
-},{
-    id: "0x82751",
-    name: "Scroll Alpha Testnet",
-    rpc: "https://alpha-rpc.scroll.io/l2",
 }]
 
-export const activeNetwork = networks[1]
+export const activeNetwork = networks[0]
 
 // 连接钱包
 export function connectWallet():Promise<any> {

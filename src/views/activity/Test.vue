@@ -5,7 +5,7 @@
 <script setup lang="ts">
 
 import {onMounted} from "vue";
-import {getContracts} from "@/apis";
+import {getContract, getContracts} from "@/apis";
 import {
     activeNetwork,
     addScrollSepoliaChain,
@@ -15,10 +15,11 @@ import {
 } from "@/utils/wallet.ts";
 
 import  * as contract from "@/utils/contract.ts"
+import * as ethers from "ethers";
 
 onMounted(async () => {
     console.log('Test.vue onMounted')
-    const contracts = await getContracts()
+    const contract1 = await getContract("erc20")
 
     // 连接metamask 钱包
     await connectWallet()
@@ -41,30 +42,8 @@ onMounted(async () => {
         })
     }
 
-    // contract.deploy("erc20",["MyToken","MTK"]).then(result => {
-    //     // 合约地址
-    //     console.log("contract_address:", result.address)
-    //     // 交易hash
-    //     console.log("transaction_tx:",result.deployTransaction.hash)
-    // })
-    contract.call(
-        "erc20",
-        "0x198794028eabae5adf5b64fb09ef962cd4a99434 ",
-        "name",
-        [])
-        .then(result => {
-            console.log(result)
-        })
-
-    // contract.call(
-    //     "erc20",
-    //     "0x0942A785AD7eE6400028c4cC35B68FF8147CBED8",
-    //     "increaseAllowance",
-    //     ["0xB362Eba0f3f42Ad32394f84ecb9c8d42bF1f2839","100"]
-    // ).then(result => {
-    //     console.log(result)
-    //     console.log(typeof result)
-    // })
+    const name1 = await contract.call("erc20","0x8aD33c8C4E3BfA47e82429B451D7054787F8b666","name",[])
+    console.log(name1)
 })
 
 </script>
