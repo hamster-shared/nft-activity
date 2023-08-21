@@ -7,7 +7,7 @@
     </a-steps>
     <div class="mt-[80px]" v-if="currStep === 0">
       <div class="flex justify-center">
-        <a-select v-model:value="networkValue" class="w-[387px] text-left" disabled>
+        <a-select v-model:value="activeNetwork.name" class="w-[387px] text-left" disabled>
           <a-select-option :value="activeNetwork.name">{{activeNetwork.name}}</a-select-option>
         </a-select>
         <a-button v-if="!isConnectedWallet" type="primary" ghost class="ml-[20px] !bg-[#FFFFFF]" @click="connectWallet">Connect Wallet</a-button>
