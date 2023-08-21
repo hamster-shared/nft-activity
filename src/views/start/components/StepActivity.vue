@@ -130,15 +130,15 @@ const DeployClick = async () => {
     }
     await contractDeploy.deploy(contract.value.toLowerCase(), Object.values(newData)).then(result => {
       // 合约地址
-      console.log("contract_address:", result.address)
+      console.log("contract_address:", result.contractAddress)
       // 交易hash
-      console.log("transaction_tx:", result.deployTransaction.hash)
+      console.log("transaction_tx:", result.transactionHash)
       const params = {
         fkActivityId: 1,
         walletAddress: walletAccount.value,
         deployNetwork: activeNetwork.name,
         contractName: contract.value,
-        contractAddress: result.address,
+        contractAddress: result.contractAddress,
       }
       const res = apiSaveDeployInfo(params)
       loading.value = false
@@ -154,7 +154,7 @@ const DeployClick = async () => {
     console.log('DeployClick2:',err)
   }
 }
-  
+
 const checkEmpty = () => {
   const emptyInputs = paramsArr?.value.filter((item: { name: string | number; }) => !formData[item.name]);
   if (emptyInputs.length === 0) {
