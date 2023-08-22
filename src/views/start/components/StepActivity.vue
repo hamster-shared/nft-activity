@@ -60,7 +60,7 @@
     </div>
   </div>
 
-  <a-modal :title="visibleTitle"  v-model:visible="visible" :footer="null" width="740px">
+  <a-modal :title="visibleTitle"  v-model:visible="visible" :footer="null" width="840px">
     <div style="height: 360px">
       <CodeEditor :readOnly="true" :value="contractValue"></CodeEditor>
     </div>

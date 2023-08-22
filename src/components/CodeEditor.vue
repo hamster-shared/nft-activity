@@ -68,8 +68,8 @@ export default {
         scrollbar: {
           // alwaysConsumeMouseWheel: false,
           // horizontal: 'hidden',
-          verticalScrollbarSize: 6, // 垂直滚动条宽度，默认px
-          horizontalScrollbarSize: 6 // 水平滚动条高度
+          verticalScrollbarSize: 10, // 垂直滚动条宽度，默认px
+          horizontalScrollbarSize: 10 // 水平滚动条高度
         },
       });
       // Monitoring value change
