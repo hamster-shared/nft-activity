@@ -1,9 +1,9 @@
-timestamp=202308211530
+timestamp=202308231404
 
 docker:
 	git fetch origin
 	git merge origin/master
-	docker build -f script/Dockerfile-test -t hamstershare/nft-activity:$(timestamp)  .
+	docker build -f script/Dockerfile -t hamstershare/nft-activity:$(timestamp)  .
 	docker push hamstershare/nft-activity:$(timestamp)
 
 docker-only:
