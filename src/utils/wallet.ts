@@ -2,8 +2,6 @@ import * as ethers from "ethers";
 // @ts-ignore
 const ethereum = window.ethereum;
 
-export const provider = new ethers.providers.Web3Provider(ethereum)
-
 const networks = [{
     id: "0x8274f",
     name: "Scroll Sepolia Testnet",
@@ -14,10 +12,11 @@ const networks = [{
     rpc: "https://alpha-rpc.scroll.io/l2",
 }]
 
-export const activeNetwork = networks[1]
+export const activeNetwork = networks[0]
 
 // 连接钱包
 export function connectWallet():Promise<any> {
+    const provider = new ethers.providers.Web3Provider(ethereum)
     return provider.send("eth_requestAccounts", []);
 }
 
