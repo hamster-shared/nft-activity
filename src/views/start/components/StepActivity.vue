@@ -48,7 +48,7 @@
         <div v-if="paramsArr?.length" v-for="(item,index) in paramsArr">
           <a-form-item :label="item.name || `param${index+1}`" class="" :name="item.name" :rules="[{ required: true, message: `Please input your ${item.name}` }]">
             <a-input class="text-white" @change="checkEmpty"
-              :placeholder= "'Enter a value for ' + (item.type || item.internalType)" allowClear autocomplete="off"
+              :placeholder= "paramsEnum[item.name]" allowClear autocomplete="off"
               v-model:value="formData[item.name || `param${index+1}`]"></a-input>
           </a-form-item>
         </div>
@@ -82,6 +82,7 @@ import {
     getCurrentNetworkId,
     switchToScrollSepolia
 } from "@/utils/wallet.ts";
+import { paramsEnum } from '@/enums/index'
 
 const emit = defineEmits(['finishDeploy'])
 
@@ -101,6 +102,7 @@ const paramsArr = ref<any>([])
 
 const nextStep = async() => {
   if(currStep.value==0){
+    await commonFn()
     // 要先判断用户是否已经部署成功，如果部署成功直接跳转
     const res = await apiActivityDeploy(walletAccount.value,activeNetwork.name)
     if(res.data){
@@ -179,7 +181,7 @@ const showContract = async(name: string) => {
   contractValue.value = res.sourceCode
 }
 
-const connectWalletCon = async()=>{
+const commonFn = async()=>{
   // 连接metamask 钱包
   await connectWallet()
   // 获取当前链id
@@ -188,18 +190,22 @@ const connectWalletCon = async()=>{
   //判断当前链id 是否scroll_sepolia网络
   if(chainId !== activeNetwork.id) {
       //尝试切换到scroll_sepolia网络
-      switchToScrollSepolia().then(() => {
+      await switchToScrollSepolia().then(() => {
           console.log("switch scroll_sepolia success")
-      }).catch(err => {
+      }).catch(async(err:any) => {
           // 切换失败，加入scroll_sepolia网络
-          addScrollSepoliaChain().then(()=> {
+          await addScrollSepoliaChain().then(()=> {
               // 再次尝试切换换到scroll_sepolia网络
               switchToScrollSepolia().then().catch(()=>{
-                  console.error("unknow err")
+                  console.error("unknow err",err)
               })
           })
       })
   }
+}
+
+const connectWalletCon = async()=>{
+  await commonFn()
   // 获取钱包地址并且缓存
   if (window.ethereum) {
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });

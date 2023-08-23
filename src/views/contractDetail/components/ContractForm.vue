@@ -61,6 +61,13 @@ import YAML from "yaml";
 import { message } from 'ant-design-vue';
 import { useRoute } from 'vue-router';
 import  * as contractDeploy from "@/utils/contract.ts"
+import {
+    activeNetwork,
+    addScrollSepoliaChain,
+    connectWallet,
+    getCurrentNetworkId,
+    switchToScrollSepolia
+} from "@/utils/wallet.ts";
 
 const props = defineProps({
   contractAddress: {
@@ -116,7 +123,31 @@ const submit = async () => {
     message.warning('Please enter the necessary parameters')
     return
   }
+  await commonFn()
   evmDeployFunction();
+}
+
+const commonFn = async()=>{
+  // 连接metamask 钱包
+  await connectWallet()
+  // 获取当前链id
+  const chainId = await getCurrentNetworkId()
+  console.log(chainId)
+  //判断当前链id 是否scroll_sepolia网络
+  if(chainId !== activeNetwork.id) {
+      //尝试切换到scroll_sepolia网络
+      await switchToScrollSepolia().then(() => {
+          console.log("switch scroll_sepolia success")
+      }).catch(async(err:any) => {
+          // 切换失败，加入scroll_sepolia网络
+          await addScrollSepoliaChain().then(()=> {
+              // 再次尝试切换换到scroll_sepolia网络
+              switchToScrollSepolia().then().catch(()=>{
+                  console.error("unknow err",err)
+              })
+          })
+      })
+  }
 }
 
 // evm合约方法调用

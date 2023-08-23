@@ -8,3 +8,10 @@ export enum activityStatus {
   'Start Now' = 2,
   'The event has ended' = 3,
 }
+
+export enum paramsEnum {
+  'name' = '1-64 Characters',
+  'amount' = '0-99.999.999,999,999,999',
+  'symbol' = '1-16 Characters',
+  'uri' = 'uri',
+}

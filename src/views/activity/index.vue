@@ -22,8 +22,8 @@
         <div class="container mx-auto px-[100px] text-center">
           <div class="text-[40px] font-semibold leading-[74px] pt-[78px] mb-[30px]">Time</div>
           <div class="activity-card py-[30px] leading-[30px] text-[24px]">
-            <div>Start: 22.Aug.2023 00:00 GMT+8</div>
-            <div class="mt-[30px]">End: 31.Aug.2023 23:59 GMT+8</div>
+            <div>Start: {{startTime}}</div>
+            <div class="mt-[30px]">End: {{endTime}}</div>
           </div>
           <!-- <a-button type="primary" class="btn-css mt-[60px]" @click="getStarted">Get Started</a-button> -->
         </div>
@@ -68,6 +68,8 @@ const router = useRouter();
 
 const showContent = ref(1);
 const status = ref()
+const startTime = ref()
+const endTime = ref()
 const questionList = ref([
   { title: 'Click the “Start Now” above', content: ''},
   { title: 'Follow the instructions step by step (about 2-3 mins)', content: ''},
@@ -104,12 +106,14 @@ const getStarted = () => {
 // 判断活动是否结束
 const getActivityStatus = async()=>{
   const res = await apiActivityStatus('1')
-  status.value = res.data
+  status.value = res.data.activityStatus
+  startTime.value = res.data.startTime
+  endTime.value = res.data.endTime
   console.log('判断活动是否结束',res)
 }
 
 const skipNewUrl = () => {
-  window.open('https://discord.gg/qMWUvs7jkV')
+  window.open('https://t.me/hamsternetio')
 }
 
 onMounted(()=>{
