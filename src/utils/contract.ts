@@ -1,9 +1,10 @@
 import * as ethers from "ethers";
-import {provider} from "./wallet.ts"
 import {getContract} from "@/apis";
 
 // 合约部署
 export function deploy(contractName: string, args: any[]): Promise<any> {
+    // @ts-ignore
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
     return getContract(contractName)
         .then(contract => {
             const factory = new ethers.ContractFactory(JSON.stringify(contract.abi), contract.bytecode, provider.getSigner())
@@ -13,6 +14,8 @@ export function deploy(contractName: string, args: any[]): Promise<any> {
 
 // 合约调用
 export function call(contractName: string,address: string, method: string, args: any[]): Promise<string> {
+    // @ts-ignore
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
     console.log(`${contractName} ${address} ${method} ${args}`)
     return getContract(contractName)
         .then(contractEntity => {
