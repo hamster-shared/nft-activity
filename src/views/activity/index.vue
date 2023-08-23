@@ -53,7 +53,7 @@
       <div class="py-[60px] text-[20px] font-medium text-[#5C64FF] flex justify-center text-center">
         <div>
           Please ensure your wallet balance is sufficient to cover GAS fees, <br>
-          In case of any questions or problems, join the <label class="text-[#007AFF] font-bold cursor-pointer underline" @click="skipNewUrl">Telegram</label> group below. 
+          In case of any questions or problems, join the <label class="text-[#007AFF] font-bold cursor-pointer underline hover:text-[#858fff]" @click="skipNewUrl">Telegram</label> group below. 
         </div>
       </div>
     </div>
