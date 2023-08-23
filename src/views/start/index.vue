@@ -3,10 +3,10 @@
     <div class="activity-bg md:pt-[80px] text-center">
       <div class="container mx-auto px-[100px]">
         <div class="flex justify-center">
-          <img src="@/assets/images/activity-logos.png" class="h-[68px]"/>
+          <img src="@/assets/images/activity-logos.png" class="h-[46px]"/>
         </div>
-        <div class="mt-[50px] flex justify-center">
-          <div class="activity-title-text">Hamster&Scroll joint NFT airdrop</div>
+        <div class="mt-[100px] flex justify-center">
+          <div class="activity-title-text">Joint Scroll & Hamster Airdrop</div>
         </div>
         <div class="container mx-auto px-[100px] mt-[80px]">
           <div class="activity-card">
@@ -15,8 +15,8 @@
           </div>
         </div>
       </div>
+      <img src="@/assets/images/activity-bg3.png" class="w-full"/>
     </div>
-    <img src="@/assets/images/activity-bg3.png" class="w-full"/>
   </div>
 </template>
 <script setup lang="ts">
