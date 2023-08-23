@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div class="container mx-auto px-[100px] py-[120px]">
+    <div class="container mx-auto px-[100px] pt-[120px]">
       <div class="pb-[60px] text-[40px] font-extrabold leading-[74px] text-center activity-text-ExtraBold">Requirement</div>
       <div v-for="(item,key) in questionList" :key="key" class="pt-[40px]" :class="{ 'activity-border-b pb-[40px]' : key === questionList.length - 1, 'activity-border-t': key === 0}">
         <div class="flex justify-between leading-[30px]">
@@ -49,6 +49,12 @@
       </div>
       <div class="text-center">
         <!-- <a-button type="primary" class="btn-css mt-[60px]" @click="getStarted">Get Started</a-button> -->
+      </div>
+      <div class="py-[60px] text-[20px] font-medium text-[#5C64FF] flex justify-center text-center">
+        <div>
+          Please ensure your wallet balance is sufficient to cover GAS fees, <br>
+          In case of any questions or problems, join the <label class="text-[#007AFF] font-bold cursor-pointer underline" @click="skipNewUrl">Telegram</label> group below. 
+        </div>
       </div>
     </div>
   </div>
@@ -100,6 +106,10 @@ const getActivityStatus = async()=>{
   const res = await apiActivityStatus('1')
   status.value = res.data
   console.log('判断活动是否结束',res)
+}
+
+const skipNewUrl = () => {
+  window.open('https://discord.gg/qMWUvs7jkV')
 }
 
 onMounted(()=>{
