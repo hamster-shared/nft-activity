@@ -19,11 +19,23 @@
         </div>
       </div>
       <div class="activity-bg3">
-        <div class="container mx-auto px-[100px] text-center">
-          <div class="text-[40px] font-semibold leading-[74px] pt-[78px] mb-[30px]">Time</div>
-          <div class="activity-card py-[30px] leading-[30px] text-[24px]">
-            <div>Start: {{startTime}}</div>
-            <div class="mt-[30px]">End: {{endTime}}</div>
+        <div class="container mx-auto text-center">
+          <div class="px-[100px]">
+            <div class="activity-card mt-[50px] px-[88px] py-[40px]">
+              <div class="card-title mb-[40px]">scroll sepolia testnet faucet collection tutorial</div>
+              <div class="card-border-t text-left text-[18px] leading-[40px]">
+                <div class="mt-[20px]">1. Open `<label class="text-link" @click="skipNewUrl('sepoliaFaucet')">sepolia faucet</label>` to receive Sepolia Token.</div>
+                <div>2. Transfer Sepolia ETH from `sepolia` to `scroll sepolia testnet` via `<label class="text-link" @click="skipNewUrl('scrollBridge')">scroll bridge</label>`</div>
+                <div>3. Wait for the scroll transaction to complete</div>
+              </div>
+            </div>
+          </div>
+          <div class="px-[100px]">
+            <div class="text-[40px] font-semibold leading-[74px] pt-[120px] mb-[30px]">Time</div>
+            <div class="activity-card py-[30px] leading-[30px] text-[24px]">
+              <div>Start: {{startTime}}</div>
+              <div class="mt-[30px]">End: {{endTime}}</div>
+            </div>
           </div>
           <!-- <a-button type="primary" class="btn-css mt-[60px]" @click="getStarted">Get Started</a-button> -->
         </div>
@@ -53,7 +65,7 @@
       <div class="py-[60px] text-[20px] font-medium text-[#5C64FF] flex justify-center text-center">
         <div>
           Please ensure your wallet balance is sufficient to cover GAS fees, <br>
-          In case of any questions or problems, join the <label class="text-[#007AFF] font-bold cursor-pointer underline hover:text-[#858fff]" @click="skipNewUrl">Telegram</label> group below. 
+          In case of any questions or problems, join the <label class="text-link" @click="skipNewUrl('Telegram')">Telegram</label> group below. 
         </div>
       </div>
     </div>
@@ -112,8 +124,14 @@ const getActivityStatus = async()=>{
   console.log('判断活动是否结束',res)
 }
 
-const skipNewUrl = () => {
-  window.open('https://t.me/hamsternetio')
+const skipNewUrl = (val: any) => {
+  if (val == 'Telegram') {
+    window.open('https://t.me/hamsternetio')
+  } else if (val == 'sepoliaFaucet') {
+    window.open('https://sepoliafaucet.com')
+  } else if (val == 'scrollBridge') {
+    window.open('https://scroll.io/bridge')
+  }
 }
 
 onMounted(()=>{
@@ -121,6 +139,28 @@ onMounted(()=>{
 })
 </script>
 <style scoped lang="less">
+.text-link{
+  color: #017AFF;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration-line: underline;
+}
+.text-link:hover{
+  color: #858fff;
+}
+.card-title{
+  font-size: 24px;
+  font-family: Montserrat-Bold, Montserrat;
+  font-weight: bold;
+  color: #FFFFFF;
+  line-height: 30px;
+  background: linear-gradient(270deg, #5C64FF 0%, #00E5D7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.card-border-t{
+  border-top: 1px solid #3C3655;
+}
 .activity-bg3{
   background: url("@/assets/images/activity-bg3.png") no-repeat center ;
   background-size: 100% 100%;
