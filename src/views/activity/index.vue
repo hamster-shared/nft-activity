@@ -24,8 +24,8 @@
             <div class="activity-card mt-[50px] px-[88px] py-[40px]">
               <div class="card-title mb-[40px]">scroll sepolia testnet faucet collection tutorial</div>
               <div class="card-border-t text-left text-[18px] leading-[40px]">
-                <div class="mt-[20px]">1. Open `<label class="text-link" @click="skipNewUrl('sepoliaFaucet')">sepolia faucet</label>` to receive Sepolia Token.</div>
-                <div>2. Transfer Sepolia ETH from `sepolia` to `scroll sepolia testnet` via `<label class="text-link" @click="skipNewUrl('scrollBridge')">scroll bridge</label>`</div>
+                <div class="mt-[20px]">1. Open <label class="text-link" @click="skipNewUrl('sepoliaFaucet')">sepolia faucet</label> to receive Sepolia Token.</div>
+                <div>2. Transfer Sepolia ETH from sepolia to scroll sepolia testnet via <label class="text-link" @click="skipNewUrl('scrollBridge')">scroll bridge</label></div>
                 <div>3. Wait for the scroll transaction to complete</div>
               </div>
             </div>
