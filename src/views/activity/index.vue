@@ -31,7 +31,7 @@
                   <div>3. Wait for the scroll transaction to complete</div>
                 </div>
                 <div class="mt-[20px] font-light">
-                  Obtaining test coins takes some time, and each faucet has its own rules and requirements. You can click on <br>
+                  Obtaining test coins takes some time, and each faucet has its own rules and requirements. You can click on 
                   <label class="text-link" @click="skipNewUrl('scrollSepoliaFaucet')">Scroll Sepolia Faucet</label>  to find a faucet suitable for yourself.
                 </div>
               </div>
@@ -96,7 +96,7 @@ const status = ref()
 const startTime = ref()
 const endTime = ref() 
 const questionList = ref([
-  { title: 'Click the “Start Now” above', content: ''},
+  { title: 'Click the “Start Now” below', content: ''},
   { title: 'Follow the instructions step by step', content: ''},
   { title: 'Bingo！', content: ''},
   { title: 'Wait for the NFT to be airdropped to your wallet', content: ''}
