@@ -99,6 +99,7 @@ const contract = ref('ERC20');
 const contractValue = ref("");
 const formData = reactive<any>({});
 const paramsArr = ref<any>([])
+const showFaucet = ref(false)
 
 const nextStep = async() => {
   if(currStep.value==0){
@@ -153,7 +154,10 @@ const DeployClick = async () => {
       emit('finishDeploy',contract.value.toLowerCase())
     }).catch(error => {
       message.error('Failed ', error)
-      console.log('DeployClick1:',error)
+      console.log('DeployClick1:',error.data.message.indexOf('insufficient funds for gas * price'))
+      if(error.data.message.indexOf('insufficient funds for gas * price')!=-1){
+        showFaucet.value = true
+      }
       loading.value = false
     })
   } catch (err: any) {
