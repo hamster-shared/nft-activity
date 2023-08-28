@@ -158,10 +158,12 @@ const DeployClick = async () => {
       loading.value = false
       emit('finishDeploy',contract.value.toLowerCase())
     }).catch(error => {
-      message.error('Failed ', error)
       console.log('DeployClick1:',error.data.message.indexOf('insufficient funds for gas * price'))
+      // 错误分两种：一种是钱不够的错误，一种是其它错误
       if(error.data.message.indexOf('insufficient funds for gas * price')!=-1){
         showFaucet.value = true
+      }else{
+        message.error(error.data.message)
       }
       loading.value = false
     })
