@@ -65,10 +65,15 @@
       <CodeEditor :readOnly="true" :value="contractValue"></CodeEditor>
     </div>
   </a-modal>
+
+  <a-modal :closable="false"  v-model:visible="showFaucet" :footer="null" width="750px">
+    <FaucetActivity @cancelModal="showFaucet = false"></FaucetActivity>
+  </a-modal>
 </template>
 <script setup lang="ts">
 import { ref, onMounted, reactive } from 'vue';
 import CodeEditor from '@/components/CodeEditor.vue'
+import FaucetActivity from "./FaucetActivity.vue"
 import { getContract } from '@/apis/index'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
@@ -251,5 +256,4 @@ onMounted(()=>{
 })
 </script>
 <style scoped lang="less">
-
 </style>

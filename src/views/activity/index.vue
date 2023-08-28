@@ -154,15 +154,6 @@ onMounted(()=>{
 })
 </script>
 <style scoped lang="less">
-.text-link{
-  color: #017AFF;
-  font-weight: bold;
-  cursor: pointer;
-  text-decoration-line: underline;
-}
-.text-link:hover{
-  color: #858fff;
-}
 .card-title{
   font-size: 24px;
   font-family: Montserrat-Bold, Montserrat;
