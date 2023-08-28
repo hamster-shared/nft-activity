@@ -65,10 +65,15 @@
       <CodeEditor :readOnly="true" :value="contractValue"></CodeEditor>
     </div>
   </a-modal>
+
+  <a-modal :closable="false"  v-model:visible="showFaucet" :footer="null" width="750px">
+    <FaucetActivity @cancelModal="showFaucet = false"></FaucetActivity>
+  </a-modal>
 </template>
 <script setup lang="ts">
 import { ref, onMounted, reactive } from 'vue';
 import CodeEditor from '@/components/CodeEditor.vue'
+import FaucetActivity from "./FaucetActivity.vue"
 import { getContract } from '@/apis/index'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
@@ -99,6 +104,7 @@ const contract = ref('ERC20');
 const contractValue = ref("");
 const formData = reactive<any>({});
 const paramsArr = ref<any>([])
+const showFaucet = ref(false)
 
 const nextStep = async() => {
   if(currStep.value==0){
@@ -152,8 +158,13 @@ const DeployClick = async () => {
       loading.value = false
       emit('finishDeploy',contract.value.toLowerCase())
     }).catch(error => {
-      message.error('Failed ', error)
-      console.log('DeployClick1:',error)
+      console.log('DeployClick1:',error.data.message.indexOf('insufficient funds for gas * price'))
+      // 错误分两种：一种是钱不够的错误，一种是其它错误
+      if(error.data.message.indexOf('insufficient funds for gas * price')!=-1){
+        showFaucet.value = true
+      }else{
+        message.error(error.data.message)
+      }
       loading.value = false
     })
   } catch (err: any) {
@@ -247,5 +258,4 @@ onMounted(()=>{
 })
 </script>
 <style scoped lang="less">
-
 </style>

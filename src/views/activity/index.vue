@@ -13,7 +13,7 @@
             Welcome all Hamsters to the Hamster & Scroll Testnet NFT Airdrop Campaign. Use the Hamster product and start a new web3 journey on Scroll. Please follow our instructions and complete the tasks. Join the native zkEVM.
           </div>
         </div>
-        <a-button type="primary" class="btn-css mt-[60px]" @click="getStarted" :disabled="status==3">{{activityStatus[status]}}</a-button>
+        <!-- <a-button type="primary" class="btn-css mt-[60px]" @click="getStarted" :disabled="status==3">{{activityStatus[status]}}</a-button> -->
         <div class="flex justify-center mt-[60px]">
           <img src="@/assets/images/activity-bg2.png" class="w-[500px]"/>
         </div>
@@ -23,10 +23,17 @@
           <div class="px-[100px]">
             <div class="activity-card mt-[50px] px-[88px] py-[40px]">
               <div class="card-title mb-[40px]">scroll sepolia testnet faucet collection tutorial</div>
-              <div class="card-border-t text-left text-[18px] leading-[40px]">
-                <div class="mt-[20px]">1. Open <label class="text-link" @click="skipNewUrl('sepoliaFaucet')">sepolia faucet</label> to receive Sepolia Token.</div>
-                <div>2. Transfer Sepolia ETH from sepolia to scroll sepolia testnet via <label class="text-link" @click="skipNewUrl('scrollBridge')">scroll bridge</label></div>
-                <div>3. Wait for the scroll transaction to complete</div>
+              <div class="card-border-t text-left text-[18px]">
+                <div class="font-bold mt-[20px]">Reference process</div>
+                <div class=" leading-[40px]">
+                  <div class="mt-[20px]">1. Open <label class="text-link" @click="skipNewUrl('sepoliaFaucet')">sepolia faucet</label> to receive Sepolia Token.</div>
+                  <div>2. Transfer Sepolia ETH from sepolia to scroll sepolia testnet via <label class="text-link" @click="skipNewUrl('scrollBridge')">scroll bridge</label></div>
+                  <div>3. Wait for the scroll transaction to complete</div>
+                </div>
+                <div class="mt-[20px] font-light">
+                  Obtaining test coins takes some time, and each faucet has its own rules and requirements. You can click on <br>
+                  <label class="text-link" @click="skipNewUrl('scrollSepoliaFaucet')">Scroll Sepolia Faucet</label>  to find a faucet suitable for yourself.
+                </div>
               </div>
             </div>
           </div>
@@ -44,29 +51,35 @@
 
     <div class="container mx-auto px-[100px] pt-[120px]">
       <div class="pb-[60px] text-[40px] font-extrabold leading-[74px] text-center activity-text-ExtraBold">Requirement</div>
-      <div v-for="(item,key) in questionList" :key="key" class="pt-[40px]" :class="{ 'activity-border-b pb-[40px]' : key === questionList.length - 1, 'activity-border-t': key === 0}">
-        <div class="flex justify-between leading-[30px]">
-          <div class="flex">
-            <div class="w-[120px] text-[24px] font-semibold activity-text-SemiBold">Step 0{{ key+1 }}:</div>
-            <div>
-              <div class="text-[24px] font-semibold activity-text-SemiBold">{{ item.title }}</div>
+      <div class="py-[40px] activity-border-b activity-border-t text-[24px] ">
+        <div class="font-extrabold activity-text-ExtraBold">Pre-requirement：Your scroll sepolia testnet faucet is claimed and well received.</div>
+        <div v-for="(item,key) in questionList" :key="key" class="pt-[40px] activity-text-SemiBold font-semibold">
+          <div class="flex justify-between leading-[30px]">
+            <div class="flex">
+              <div class="w-[120px]">Step 0{{ key+1 }}:</div>
+              <div>
+                <div>{{ item.title }}</div>
+              </div>
             </div>
-          </div>
           <!-- <div class="pt-[2px]">
             <img :id="`add-${key+1}`" src="@/assets/images/activity-add.png" :class="{ 'hidden' : showContent === key+1}" class="w-[26px] h-[26px]"/>
             <img :id="`minus-${key+1}`" src="@/assets/images/activity-minus.png" :class="{ 'hidden' : showContent !== key+1}" class="w-[26px] h-[26px]"/>
           </div> -->
+          </div>
+          <!-- <div :id="`content-${key+1}`" :class="{ 'hidden' : showContent !== key+1}" class="mt-[30px] ml-[50px] text-[18px] font-light activity-text-Light w-[880px]">{{ item.content }}</div> -->
         </div>
-        <!-- <div :id="`content-${key+1}`" :class="{ 'hidden' : showContent !== key+1}" class="mt-[30px] ml-[50px] text-[18px] font-light activity-text-Light w-[880px]">{{ item.content }}</div> -->
       </div>
       <div class="text-center">
         <!-- <a-button type="primary" class="btn-css mt-[60px]" @click="getStarted">Get Started</a-button> -->
       </div>
-      <div class="py-[60px] text-[20px] font-medium text-[#5C64FF] flex justify-center text-center">
+      <div class="pt-[60px] text-[20px] font-medium text-[#5C64FF] flex justify-center text-center">
         <div>
           Please ensure your wallet balance is sufficient to cover GAS fees, <br>
           In case of any questions or problems, join the <label class="text-link" @click="skipNewUrl('Telegram')">Telegram</label> group below. 
         </div>
+      </div>
+      <div class="text-center mb-[120px]">
+        <a-button type="primary" class="btn-css mt-[50px]" @click="getStarted" :disabled="status==3">{{activityStatus[status]}}</a-button>
       </div>
     </div>
   </div>
@@ -81,10 +94,10 @@ const router = useRouter();
 const showContent = ref(1);
 const status = ref()
 const startTime = ref()
-const endTime = ref()
+const endTime = ref() 
 const questionList = ref([
   { title: 'Click the “Start Now” above', content: ''},
-  { title: 'Follow the instructions step by step (about 2-3 mins)', content: ''},
+  { title: 'Follow the instructions step by step', content: ''},
   { title: 'Bingo！', content: ''},
   { title: 'Wait for the NFT to be airdropped to your wallet', content: ''}
 ]);
@@ -131,6 +144,8 @@ const skipNewUrl = (val: any) => {
     window.open('https://sepoliafaucet.com')
   } else if (val == 'scrollBridge') {
     window.open('https://scroll.io/bridge')
+  } else if (val == 'scrollSepoliaFaucet') {
+    window.open('https://docs.scroll.io/en/user-guide/faucet/')
   }
 }
 
@@ -139,15 +154,6 @@ onMounted(()=>{
 })
 </script>
 <style scoped lang="less">
-.text-link{
-  color: #017AFF;
-  font-weight: bold;
-  cursor: pointer;
-  text-decoration-line: underline;
-}
-.text-link:hover{
-  color: #858fff;
-}
 .card-title{
   font-size: 24px;
   font-family: Montserrat-Bold, Montserrat;

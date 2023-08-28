@@ -44,3 +44,14 @@
 .open-link-css:active,.open-link-css .svg-icon:active{
   color: #CE9C58;
 }
+
+
+.text-link{
+  color: #017AFF;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration-line: underline;
+}
+.text-link:hover{
+  color: #858fff;
+}
