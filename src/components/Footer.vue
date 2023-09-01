@@ -19,6 +19,7 @@
             <img :src="getImageURL('DFINITY.png')" class="w-[18%] mr-[6.3%]  inline-block lg:hidden" />
             <img :src="getImageURL('GrantSUi.png')" class="lg:w-[11%] w-[16%]" />
             <img :src="getImageURL('GrantOP.png')" class="lg:w-[22%] w-[30%] lg:ml-[5%] ml-[6.3%]" />
+            <img :src="getImageURL('GrantFilecoin.png')" class="lg:w-[5.5%] w-[30%] lg:ml-[5%] ml-[6.3%]" />
           </div>
         </div>
 
